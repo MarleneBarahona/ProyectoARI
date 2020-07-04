@@ -2,6 +2,8 @@ package sample;
 
 import com.google.gson.*;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextArea;
 import jdk.internal.org.xml.sax.SAXException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -43,6 +45,7 @@ public class Controller {
         selectorArchivos.setFileFilter(filtro);
         selectorArchivos.showOpenDialog(selectorArchivos);
         File archivo = selectorArchivos.getSelectedFile(); // obtiene el archivo seleccionado
+        //mostrarContenido(archivo);
 
 // -------------------------------------------------------------------------------------------
         //ELIGE DONDE GUARDAR
@@ -66,6 +69,12 @@ public class Controller {
                 File f = new File(ruta);
                 entrada = new Scanner(f);
 
+                /*
+                JTextArea idk = new JTextArea();
+                String codigo = new String();
+                codigo = entrada.nextLine();
+                idk.setText(codigo);*/
+
                 out = new StreamResult(guarda + ".xml");
                 openXml();//---> Funcion que abre xml (Estructura)
 
@@ -86,6 +95,11 @@ public class Controller {
 
         }
 
+    }
+    @FXML
+    private void mostrarContenido(File archivo) {
+        TextArea idk = new TextArea();
+        idk.setText("hOLA");
     }
 
     //Abre el archivo XML (Estructura) para empezar a crearlo
@@ -418,6 +432,22 @@ public class Controller {
 
 
     }
+
+    public void mostrarContenido2(ActionEvent event) {
+        File archivo = new File("C:/Users/Marlene/Desktop/Cliente.txt");
+        try {
+            BufferedReader leer = new BufferedReader(new FileReader(archivo));
+            String linea = leer.readLine();
+            while (linea != null){
+                //JTextArea
+                linea = leer.readLine();
+            }
+        }catch (Exception e){
+            //Logger.getLogger()
+        }
+        System.out.println("lo tocaste :O");
+    }
+
     /*public static void generateJWT(JsonArray dataset){
         String clave = "EstaEsUnaClaveSuperSecretaYLargaParaQueEstoFuncione";
         byte[] decodedKey = Base64.getDecoder().decode(clave);

@@ -5,7 +5,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 public class Main extends Application {
 
@@ -15,8 +21,33 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 400, 375));
-        
         primaryStage.show();
+        Stage contenido = new Stage();
+        TextArea jta1 = new TextArea();
+
+        //jta1.getId(idk);
+        Button b1 = new Button("Mostrar contenido");
+
+        VBox layout = new VBox(5);
+        layout.getChildren().addAll(jta1,b1);
+        contenido.setScene(new Scene(layout,450,250));
+        contenido.show();
+        b1.setOnAction(event -> {
+                File archivo = new File("C:/Users/Marlene/Desktop/Cliente.txt");
+        try {
+            BufferedReader leer = new BufferedReader(new FileReader(archivo));
+            //String linea2;
+            String linea = leer.readLine();
+            String linea2 = linea;
+            while (linea != null){
+                linea2 = linea2 + linea +"\n"+ leer.readLine()+ "\n";
+                jta1.setText(linea2 +"\n");
+                linea = leer.readLine();
+            }
+        }catch (Exception e){
+            //Logger.getLogger()
+        }}
+        );
     }
 
 

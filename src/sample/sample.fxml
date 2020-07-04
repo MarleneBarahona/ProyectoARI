@@ -8,10 +8,17 @@
     <Button onAction="#convertXMLtoTXT" prefHeight="25.0" prefWidth="131.0" style="-fx-background-color: #3c7fb1;" text="Convertir XML a TXT" GridPane.rowIndex="1" />
     <Button onAction="#convertTXTtoJSON" style="-fx-background-color: #3c7fb1;" text="Convertir TXT a JSON" GridPane.rowIndex="2" />
     <Button onAction="#convertJSONtoTXT" style="-fx-background-color: #3c7fb1;" text="Convertir JSON a TXT" GridPane.rowIndex="3" />
+    <Button alignment="CENTER" onAction="#mostrarContenido2" prefHeight="25.0" prefWidth="132.0" style="-fx-background-color: #3c7fb1;" text="Mostrar contenido" GridPane.rowIndex="4" />
+
+    <TextArea fx:id="idk" GridPane.rowIndex="6" />
    <columnConstraints>
       <ColumnConstraints />
    </columnConstraints>
    <rowConstraints>
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
       <RowConstraints />
       <RowConstraints />
       <RowConstraints />
