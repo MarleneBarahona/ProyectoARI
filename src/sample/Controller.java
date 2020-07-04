@@ -186,7 +186,7 @@ public class Controller {
 
                     //Etiqueta va a leer para pasarla a texto
                     NodeList nList = doc.getElementsByTagName("cliente");
-
+                    int cont = 1;
                     //Nodo Padre
                     for (int i = 0; i < nList.getLength(); i++) {
                         Node node = nList.item(i);
@@ -198,6 +198,11 @@ public class Controller {
                                 for (int j = 0; j < nl.getLength(); j++) {
                                     Node nd = nl.item(j);
                                     String name = nd.getTextContent();
+                                    if(j==0){
+                                        writer.write(cont+";");
+                                        //System.out.println(cont+";");
+                                        cont++;
+                                    }
                                     //Compruebo que no este vacio y escribo en el archivo.txt
                                     if (name != null && !name.trim().equals("")) {
                                         writer.write(nd.getTextContent().trim());
