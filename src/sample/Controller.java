@@ -4,6 +4,7 @@ import com.google.gson.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.stage.Stage;
 import jdk.internal.org.xml.sax.SAXException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -36,7 +37,7 @@ public class Controller {
     private static StreamResult out;
     private static AttributesImpl atts;
     private static TransformerHandler th;
-
+    Stage ventana = new Stage();
     public void convertTXTtoXML(ActionEvent event){
         //SELECIONA ARCHIVO A LEER
         JFileChooser selectorArchivos = new JFileChooser();
