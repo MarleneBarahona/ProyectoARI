@@ -9,6 +9,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -21,7 +23,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 400, 375));
-        primaryStage.show();
+        //primaryStage.show();
         Stage contenido = new Stage();
         TextArea jta1 = new TextArea();
 
@@ -33,15 +35,12 @@ public class Main extends Application {
         contenido.setScene(new Scene(layout,450,250));
         contenido.show();
         b1.setOnAction(event -> {
-                File archivo = new File("C:/Users/Marlene/Desktop/Cliente.txt");
+                File archivo = new File("C:/Users/maris/Desktop/Cliente2.txt");
         try {
             BufferedReader leer = new BufferedReader(new FileReader(archivo));
-            //String linea2;
             String linea = leer.readLine();
-            String linea2 = linea;
             while (linea != null){
-                linea2 = linea2 + linea +"\n"+ leer.readLine()+ "\n";
-                jta1.setText(linea2 +"\n");
+                jta1.appendText(linea+"\n");
                 linea = leer.readLine();
             }
         }catch (Exception e){
