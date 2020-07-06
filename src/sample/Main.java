@@ -3,6 +3,7 @@ package sample;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -48,14 +49,19 @@ public class Main extends Application {
         TextArea jta1 = new TextArea();
         jta1.setPrefSize(440,300);
         //jta1.getId(idk);
-        b1 = new Button("Seleccionar");
+        b1 = new Button("Seleccionar archivo");
         b2 = new Button("Convertir este archivo");
         b3 = new Button("Cancelar");
+        b1.setPrefSize(150,10);
+        b2.setPrefSize(150,10);
+        b3.setPrefSize(150,10);
         jta1.setText("Aqui se mostrara el contenido de tu archivo");
+        jta1.setEditable(false);
         VBox layout = new VBox(8);
         layout.getChildren().addAll(jta1,b1,b2, b3);
-        contenido.setScene(new Scene(layout,450,450));
-        contenido.setX(600);
+        layout.setAlignment(Pos.CENTER);
+        contenido.setScene(new Scene(layout,550,550));
+        contenido.setX(400);
         contenido.setY(50);
         contenido.show();
         b1.setOnAction(event -> {
@@ -66,6 +72,7 @@ public class Main extends Application {
             selectorArchivos.setFileFilter(filtro);
             selectorArchivos.showOpenDialog(selectorArchivos);
             archivo = selectorArchivos.getSelectedFile();
+            //System.out.println(archivo.getName());
             // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
         try {
             BufferedReader leer = new BufferedReader(new FileReader(archivo));
