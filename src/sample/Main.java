@@ -74,16 +74,8 @@ public class Main extends Application {
             archivo = selectorArchivos.getSelectedFile();
             //System.out.println(archivo.getName());
             // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
-        try {
-            BufferedReader leer = new BufferedReader(new FileReader(archivo));
-            String linea = leer.readLine();
-            while (linea != null){
-                jta1.appendText(linea+"\n");
-                linea = leer.readLine();
-            }
-        }catch (Exception e){
-            //Logger.getLogger()
-        }}
+            mostrarContenidoTextArea(archivo,jta1);
+        }
         );
         b3.setOnAction(event -> jta1.clear());
         b2.setOnAction(event -> {
@@ -116,6 +108,7 @@ public class Main extends Application {
 
                     closeXml();//---> Funcion que cierra xml (Estructura)
                     entrada.close();
+                    mostrarContenidoTextArea(f,jta1);
                 } catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
                 } catch (NullPointerException e) {
@@ -130,7 +123,18 @@ public class Main extends Application {
         TextArea idk = new TextArea();
         idk.setText("hOLA");
     }
-
+    public static void mostrarContenidoTextArea(File archivo, TextArea jta){
+        try {
+            BufferedReader leer = new BufferedReader(new FileReader(archivo));
+            String linea = leer.readLine();
+            while (linea != null){
+                jta.appendText(linea+"\n");
+                linea = leer.readLine();
+            }
+        }catch (Exception e){
+            //Logger.getLogger()
+        }
+    }
     //Abre el archivo XML (Estructura) para empezar a crearlo
     public static void openXml () throws ParserConfigurationException, TransformerConfigurationException, SAXException, org.xml.sax.SAXException {
 
