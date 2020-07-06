@@ -16,10 +16,16 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jdk.internal.org.xml.sax.SAXException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.helpers.AttributesImpl;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -74,8 +80,8 @@ public class Main extends Application {
         convert4.setDisable(true);
 
         //opcionesConvert.setDisable(true);
-        Text piyu1 = new Text("Archivo seleccionado:");
-        Text piyu2 = new Text("");
+        Text text1 = new Text("Archivo seleccionado:");
+        Text textNombreArchivo = new Text("");
         jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
         jta1.setEditable(false);
         Image nombrexd = new Image(getClass().getResourceAsStream("/sample/Imagen1.PNG"));
@@ -83,7 +89,7 @@ public class Main extends Application {
         imageView.setFitWidth(300);
         imageView.setFitHeight(80);
         VBox layout = new VBox(7);
-        layout.getChildren().addAll(imageView, piyu1, piyu2, jta1,b1,b2,opcionesConvert,b3, b4);
+        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
@@ -93,9 +99,9 @@ public class Main extends Application {
         BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         // new Background(images...)
         layout.setBackground(new Background(backgroundImage));
-        contenido.setScene(new Scene(layout,550,600));
+        contenido.setScene(new Scene(layout,580,620));
         contenido.setX(400);
-        contenido.setY(50);
+        contenido.setY(45);
         //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
         FileNameExtensionFilter filtroTXT = new FileNameExtensionFilter("Archivos de texto", "txt");
@@ -113,7 +119,7 @@ public class Main extends Application {
             archivo = selectorArchivos.getSelectedFile();
             //System.out.println(archivo.getName());
             // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
-            piyu2.setText(archivo.getName());
+            textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
             b2.setDisable(false);
         }
@@ -121,7 +127,7 @@ public class Main extends Application {
         b4.setOnAction(event -> {
             jta1.clear();
             b2.setDisable(true);
-            piyu2.setText("");
+            textNombreArchivo.setText("");
             convert1.setDisable(true);
             convert2.setDisable(true);
             convert3.setDisable(true);
@@ -137,11 +143,12 @@ public class Main extends Application {
             archivo = selectorArchivos.getSelectedFile();
             //System.out.println(archivo.getName());
             // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
-            piyu2.setText(archivo.getName());
+            textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
         });
         b2.setOnAction(event -> {
-            convert1.setDisable(false); convert2.setDisable(false);});
+            //aqui debemos meter dependiendo de que archivo selecciona
+            convert1.setDisable(false); convert2.setDisable(false); convert3.setDisable(false);});
         convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -249,6 +256,72 @@ public class Main extends Application {
                         } catch (Exception e2) {
                             e2.printStackTrace();
                         }
+                    }
+                }
+            });
+            convert3.setOnAction(event -> {
+                //ELIGE DONDE GUARDAR
+                JFileChooser archivoG = new JFileChooser();
+                archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos de Texto", "txt");
+                selectorArchivos.setFileFilter(filtroG);
+                archivoG.showSaveDialog(archivoG);
+                File guarda = archivoG.getSelectedFile();
+//---------------------------------------------------------------------------------------------
+
+                if ((archivo == null) || (archivo.getName().equals(""))) {
+                    JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
+                            "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    try {
+                        //Archivo.txt que va a crear
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(guarda + ".txt"));
+
+                        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                        Document doc = dBuilder.parse(archivo); //Archivo elegido a leer
+
+                        //Etiqueta va a leer para pasarla a texto
+                        NodeList nList = doc.getElementsByTagName("cliente");
+                        int cont = 1;
+                        //Nodo Padre
+                        for (int i = 0; i < nList.getLength(); i++) {
+                            Node node = nList.item(i);
+                            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                                //Creo un elemento que obtendra los hijos
+                                Element eElement = (Element) node;
+                                if (eElement.hasChildNodes()) {
+                                    NodeList nl = node.getChildNodes();
+                                    for (int j = 0; j < nl.getLength(); j++) {
+                                        Node nd = nl.item(j);
+                                        String name = nd.getTextContent();
+                                        if(j==0){
+                                            writer.write(cont+";");
+                                            //System.out.println(cont+";");
+                                            cont++;
+                                        }
+                                        //Compruebo que no este vacio y escribo en el archivo.txt
+                                        if (name != null && !name.trim().equals("")) {
+                                            writer.write(nd.getTextContent().trim());
+                                            if(j < nl.getLength()-4){
+                                                //Vigenere vigenere = new Vigenere(nd.getTextContent().trim(),"CiAri");
+                                                //writer.write(vigenere.descifrado);
+                                                System.out.println(nd.getTextContent().trim());
+                                            }else{
+                                            }
+                                            //Para que el último dato no tenga el delimitador
+                                            if (j < nl.getLength() - 2) {
+                                                writer.write(";");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            writer.write("\n");
+                        }
+                        writer.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             });
