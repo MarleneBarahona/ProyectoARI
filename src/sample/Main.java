@@ -67,7 +67,11 @@ public class Main extends Application {
         HBox opcionesConvert = new HBox(3);
         opcionesConvert.setAlignment(Pos.CENTER);
         opcionesConvert.getChildren().addAll(convert1,convert2,convert3,convert4);
-        opcionesConvert.setDisable(true);
+        convert1.setDisable(true);
+        convert2.setDisable(true);
+        convert3.setDisable(true);
+        convert4.setDisable(true);
+        //opcionesConvert.setDisable(true);
         Text piyu1 = new Text("Archivo seleccionado:");
         Text piyu2 = new Text("");
         jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
@@ -107,8 +111,16 @@ public class Main extends Application {
             b2.setDisable(false);
         }
         );
-        b3.setOnAction(event -> {jta1.clear(); b2.setDisable(true); piyu2.setText("");});
-        b2.setOnAction(event -> {
+        b3.setOnAction(event -> {
+            jta1.clear();
+            b2.setDisable(true);
+            piyu2.setText("");
+            convert1.setDisable(true);
+            convert2.setDisable(true);
+            convert3.setDisable(true);
+            convert4.setDisable(true);});
+        b2.setOnAction(event -> {convert1.setDisable(false);});
+        convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             //FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos XML", "xml");
