@@ -16,6 +16,10 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jdk.internal.org.xml.sax.SAXException;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -334,7 +338,7 @@ public class Main extends Application {
                 }
             });
             
-           /* convert4.setOnAction(event -> {
+           convert4.setOnAction(event -> {
                 //ELIGE DONDE GUARDAR
                 JFileChooser archivoG = new JFileChooser();
                 archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -357,7 +361,14 @@ public class Main extends Application {
                     }
 
                     JSONParser parser = new JSONParser();
-                    JSONArray a = (JSONArray) parser.parse(new FileReader(archivo));
+                    JSONArray a = null;
+                    try {
+                        a = (JSONArray) parser.parse(new FileReader(archivo));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     try {
                         for (Object o : a) {
 
@@ -414,7 +425,7 @@ public class Main extends Application {
                         }
                     }
                 }
-            });*/
+            });
     }
     @FXML
     private void mostrarContenido(File archivo) {
