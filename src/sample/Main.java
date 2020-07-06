@@ -148,7 +148,12 @@ public class Main extends Application {
         });
         b2.setOnAction(event -> {
             //aqui debemos meter dependiendo de que archivo selecciona
-            convert1.setDisable(false); convert2.setDisable(false); convert3.setDisable(false);});
+            String ext = archivo.getName();
+            System.out.println(ext);
+            //if(ext == "Cliente.txt"){
+                convert1.setDisable(false);
+            //}
+             convert2.setDisable(false); convert3.setDisable(false);});
         convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
