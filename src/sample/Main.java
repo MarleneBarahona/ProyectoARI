@@ -35,7 +35,7 @@ import java.util.Scanner;
 public class Main extends Application {
 
     Button buttonTXTtoXML, buttonTXTtoJSON;
-    Button b1, b2, b3;
+    Button b1, b2, b3, b4;
     private static StreamResult out;
     private static AttributesImpl atts;
     private static TransformerHandler th;
@@ -55,10 +55,11 @@ public class Main extends Application {
         //jta1.getId(idk);
         b1 = new Button("Seleccionar archivo");
         b2 = new Button("Convertir este archivo");
-        b3 = new Button("Cancelar");
+        b3 = new Button("Mostrar archivo");
+        b4 = new Button("Cancelar");
         b1.setPrefSize(150,10);
         b2.setPrefSize(150,10);
-        b3.setPrefSize(150,10);
+        b4.setPrefSize(150,10);
         b2.setDisable(true);
         Button convert1 = new Button("Convertir a XML");
         Button convert2 = new Button("Convertir a JSON");
@@ -81,7 +82,7 @@ public class Main extends Application {
         imageView.setFitWidth(300);
         imageView.setFitHeight(80);
         VBox layout = new VBox(7);
-        layout.getChildren().addAll(imageView, piyu1, piyu2, jta1,b1,b2,opcionesConvert,b3);
+        layout.getChildren().addAll(imageView, piyu1, piyu2, jta1,b1,b2,opcionesConvert,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
@@ -91,7 +92,7 @@ public class Main extends Application {
         BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         // new Background(images...)
         layout.setBackground(new Background(backgroundImage));
-        contenido.setScene(new Scene(layout,550,570));
+        contenido.setScene(new Scene(layout,550,600));
         contenido.setX(400);
         contenido.setY(50);
         //contenido.initStyle(StageStyle.TRANSPARENT);
@@ -111,7 +112,7 @@ public class Main extends Application {
             b2.setDisable(false);
         }
         );
-        b3.setOnAction(event -> {
+        b4.setOnAction(event -> {
             jta1.clear();
             b2.setDisable(true);
             piyu2.setText("");
@@ -119,6 +120,19 @@ public class Main extends Application {
             convert2.setDisable(true);
             convert3.setDisable(true);
             convert4.setDisable(true);});
+        b3.setOnAction(event -> {
+            jta1.clear();
+            selectorArchivos = new JFileChooser();
+            selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto", "txt");
+            selectorArchivos.setFileFilter(filtro);
+            selectorArchivos.showOpenDialog(selectorArchivos);
+            archivo = selectorArchivos.getSelectedFile();
+            //System.out.println(archivo.getName());
+            // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
+            piyu2.setText(archivo.getName());
+            mostrarContenidoTextArea(archivo,jta1);
+        });
         b2.setOnAction(event -> {convert1.setDisable(false);});
         convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
