@@ -59,6 +59,7 @@ public class Main extends Application {
         b1.setPrefSize(150,10);
         b2.setPrefSize(150,10);
         b3.setPrefSize(150,10);
+        b2.setDisable(true);
         Text piyu1 = new Text("Archivo seleccionado:");
         Text piyu2 = new Text("");
         jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
@@ -81,6 +82,7 @@ public class Main extends Application {
         contenido.setScene(new Scene(layout,550,550));
         contenido.setX(400);
         contenido.setY(50);
+        //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
         b1.setOnAction(event -> {
             jta1.clear();
@@ -94,6 +96,7 @@ public class Main extends Application {
             // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
             piyu2.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
+            b2.setDisable(false);
         }
         );
         b3.setOnAction(event -> jta1.clear());
