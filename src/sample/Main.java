@@ -134,6 +134,11 @@ public class Main extends Application {
             convert4.setDisable(true);});
         b3.setOnAction(event -> {
             jta1.clear();
+            b2.setDisable(true);
+            convert1.setDisable(true);
+            convert2.setDisable(true);
+            convert3.setDisable(true);
+            convert4.setDisable(true);
             selectorArchivos = new JFileChooser();
             selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             selectorArchivos.setFileFilter(filtroJSON);
