@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -88,6 +89,12 @@ public class Main extends Application {
         convert2.setDisable(true);
         convert3.setDisable(true);
         convert4.setDisable(true);
+        //Para meter la llave
+        Text textLlave = new Text("Llave de cifrado: ");
+        TextField textFieldllaveCi = new TextField("Introduzca la llave");
+        HBox llaveCi = new HBox(textLlave,textFieldllaveCi);
+        llaveCi.setAlignment(Pos.CENTER);
+        llaveCi.setDisable(true);
         //Imagen de nombre del SW
         Image nombrexd = new Image(getClass().getResourceAsStream("/sample/Imagen1.PNG"));
         ImageView imageView = new ImageView(nombrexd);
@@ -95,7 +102,7 @@ public class Main extends Application {
         imageView.setFitHeight(80);
 
         VBox layout = new VBox(7);
-        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,b3, b4);
+        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi ,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         //Background
@@ -161,6 +168,8 @@ public class Main extends Application {
         });
         //Al presionar b2 (Convertir archivo) Habilita qué opciones de conversion se tienen
         b2.setOnAction(event -> {
+            llaveCi.setDisable(false);
+            System.out.println(textFieldllaveCi.getText());
             String ext = archivo.getName().substring(archivo.getName().lastIndexOf("."));
             System.out.println(ext);
             if(ext.equals(".txt")){
@@ -173,6 +182,7 @@ public class Main extends Application {
             });
         //Al presionar convert1 (Convertir a XML)
         convert1.setOnAction(event -> {
+            //llaveCi.setDisable(false);
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             //FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos XML", "xml");
@@ -211,6 +221,7 @@ public class Main extends Application {
 
         //Al presionar convert2 (Convertir a JSON)
             convert2.setOnAction(event -> {
+               // llaveCi.setDisable(false);
                 //Crea una matriz donde se almacenaran los datos
                 JsonArray datasets = new JsonArray();
 //---------------------------------------------------------------------------------------------
@@ -281,6 +292,7 @@ public class Main extends Application {
             });
         //Al presionar convert3 (Convertir de XML a TXT)
             convert3.setOnAction(event -> {
+               // llaveCi.setDisable(false);
                 //ELIGE DONDE GUARDAR
                 JFileChooser archivoG = new JFileChooser();
                 archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -349,6 +361,7 @@ public class Main extends Application {
 
         //Al presionar convert4 (Convertir de JSON a TXT)
            convert4.setOnAction(event -> {
+               //llaveCi.setDisable(false);
                 //ELIGE DONDE GUARDAR
                 JFileChooser archivoG = new JFileChooser();
                 archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -356,6 +369,7 @@ public class Main extends Application {
                 selectorArchivos.setFileFilter(filtroG);
                 archivoG.showSaveDialog(archivoG);
                 File guarda = archivoG.getSelectedFile();
+               //System.out.println(textFieldllaveCi.getText());
 //---------------------------------------------------------------------------------------------
                 if ((archivo == null) || (archivo.getName().equals(""))) {
                     JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
