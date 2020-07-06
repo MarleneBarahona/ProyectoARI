@@ -314,12 +314,12 @@ public class Main extends Application {
                                         }
                                         //Compruebo que no este vacio y escribo en el archivo.txt
                                         if (name != null && !name.trim().equals("")) {
-                                            writer.write(nd.getTextContent().trim());
-                                            if(j < nl.getLength()-4){
-                                                //Vigenere vigenere = new Vigenere(nd.getTextContent().trim(),"CiAri");
-                                                //writer.write(vigenere.descifrado);
-                                                System.out.println(nd.getTextContent().trim());
+
+                                            if(j == 7){
+                                                VigenereDescifrado vigenereDescifrado = new VigenereDescifrado(name,"CiAri");
+                                                writer.write(vigenereDescifrado.descifrado);
                                             }else{
+                                                writer.write(nd.getTextContent().trim());
                                             }
                                             //Para que el último dato no tenga el delimitador
                                             if (j < nl.getLength() - 2) {
@@ -483,12 +483,11 @@ public class Main extends Application {
 
         boolean ban = true;
         th.startElement("", "", "credit-card", atts);
-        /*while (ban){
-            Vigenere vigenere = new Vigenere(elements[4],"CiAri");
+        while (ban){
+            VigenereCifrado vigenere = new VigenereCifrado(elements[4],"CiAri");
             th.characters(vigenere.cifrado, 0, elements[4].length());
-            System.out.println(vigenere.cifrado);
             ban= false;
-        }*/
+        }
         th.endElement("", "", "credit-card");
 
         th.startElement("", "", "tipo", atts);
