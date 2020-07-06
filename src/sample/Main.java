@@ -26,7 +26,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.helpers.AttributesImpl;
-import sun.plugin.dom.html.HTMLBodyElement;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -98,6 +97,13 @@ public class Main extends Application {
         HBox llaveCi = new HBox(textLlave,textFieldllaveCi);
         llaveCi.setAlignment(Pos.CENTER);
         llaveCi.setDisable(true);
+        //Para meter el delimitador
+        Text texDelimitador = new Text("Delimitador del archivo: ");
+        TextField textFieldDelimitador = new TextField("Introduzca el delimitador: ");
+        textFieldDelimitador.setPrefSize(110,10);
+        HBox HBoxDelimitador = new HBox(texDelimitador,textFieldDelimitador);
+        HBoxDelimitador.setAlignment(Pos.CENTER);
+        //HBoxDelimitador.setDisable(true);
         //Imagen de nombre del SW
         Image nombrexd = new Image(getClass().getResourceAsStream("/sample/Imagen1.PNG"));
         ImageView imageView = new ImageView(nombrexd);
@@ -105,7 +111,7 @@ public class Main extends Application {
         imageView.setFitHeight(80);
 
         VBox layout = new VBox(7);
-        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi ,b3, b4);
+        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         //Background
@@ -117,9 +123,9 @@ public class Main extends Application {
         // new Background(images...)
         layout.setBackground(new Background(backgroundImage));
 
-        contenido.setScene(new Scene(layout,580,660));
+        contenido.setScene(new Scene(layout,580,680));
         contenido.setX(400);
-        contenido.setY(25);
+        contenido.setY(15);
         //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
         //Filtros para los FileChooser
