@@ -3,12 +3,16 @@ package sample;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import jdk.internal.org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -55,11 +59,25 @@ public class Main extends Application {
         b1.setPrefSize(150,10);
         b2.setPrefSize(150,10);
         b3.setPrefSize(150,10);
-        jta1.setText("Aqui se mostrara el contenido de tu archivo");
+        Text piyu1 = new Text("Archivo seleccionado:");
+        Text piyu2 = new Text("");
+        jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
         jta1.setEditable(false);
+        Image nombrexd = new Image(getClass().getResourceAsStream("/sample/Imagen1.PNG"));
+        ImageView imageView = new ImageView(nombrexd);
+        imageView.setFitWidth(300);
+        imageView.setFitHeight(80);
         VBox layout = new VBox(8);
-        layout.getChildren().addAll(jta1,b1,b2, b3);
+        layout.getChildren().addAll(imageView, piyu1, piyu2, jta1,b1,b2, b3);
         layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(1,5,1,5));
+        Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
+        // new BackgroundSize(width, height, widthAsPercentage, heightAsPercentage, contain, cover)
+        BackgroundSize backgroundSize = new BackgroundSize(400, 400, true, true, true, false);
+        // new BackgroundImage(image, repeatX, repeatY, position, size)
+        BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+        // new Background(images...)
+        layout.setBackground(new Background(backgroundImage));
         contenido.setScene(new Scene(layout,550,550));
         contenido.setX(400);
         contenido.setY(50);
@@ -74,6 +92,7 @@ public class Main extends Application {
             archivo = selectorArchivos.getSelectedFile();
             //System.out.println(archivo.getName());
             // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
+            piyu2.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
         }
         );
@@ -108,7 +127,7 @@ public class Main extends Application {
 
                     closeXml();//---> Funcion que cierra xml (Estructura)
                     entrada.close();
-                    mostrarContenidoTextArea(f,jta1);
+                    mostrarContenidoTextArea(guarda,jta1);
                 } catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
                 } catch (NullPointerException e) {
@@ -123,9 +142,9 @@ public class Main extends Application {
         TextArea idk = new TextArea();
         idk.setText("hOLA");
     }
-    public static void mostrarContenidoTextArea(File archivo, TextArea jta){
+    public static void mostrarContenidoTextArea(File archivo2, TextArea jta){
         try {
-            BufferedReader leer = new BufferedReader(new FileReader(archivo));
+            BufferedReader leer = new BufferedReader(new FileReader(archivo2));
             String linea = leer.readLine();
             while (linea != null){
                 jta.appendText(linea+"\n");
