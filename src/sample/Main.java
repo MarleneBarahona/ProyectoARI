@@ -60,6 +60,13 @@ public class Main extends Application {
         b2.setPrefSize(150,10);
         b3.setPrefSize(150,10);
         b2.setDisable(true);
+        Button convert1 = new Button("Convert 1");
+        Button convert2 = new Button("Convert 2");
+        Button convert3 = new Button("Convert 3");
+        Button convert4 = new Button("Convert 4");
+        HBox opcionesConvert = new HBox(3);
+        opcionesConvert.setAlignment(Pos.CENTER);
+        opcionesConvert.getChildren().addAll(convert1,convert2,convert3,convert4);
         Text piyu1 = new Text("Archivo seleccionado:");
         Text piyu2 = new Text("");
         jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
@@ -68,8 +75,8 @@ public class Main extends Application {
         ImageView imageView = new ImageView(nombrexd);
         imageView.setFitWidth(300);
         imageView.setFitHeight(80);
-        VBox layout = new VBox(8);
-        layout.getChildren().addAll(imageView, piyu1, piyu2, jta1,b1,b2, b3);
+        VBox layout = new VBox(7);
+        layout.getChildren().addAll(imageView, piyu1, piyu2, jta1,b1,b2,opcionesConvert,b3);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
@@ -79,7 +86,7 @@ public class Main extends Application {
         BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         // new Background(images...)
         layout.setBackground(new Background(backgroundImage));
-        contenido.setScene(new Scene(layout,550,550));
+        contenido.setScene(new Scene(layout,550,570));
         contenido.setX(400);
         contenido.setY(50);
         //contenido.initStyle(StageStyle.TRANSPARENT);
