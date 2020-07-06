@@ -52,6 +52,7 @@ public class Main extends Application {
     private File archivo;
     private JFileChooser selectorArchivos;
     private static String clave;
+    private static String delimitador;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -213,6 +214,7 @@ public class Main extends Application {
                     openXml();//---> Funcion que abre xml (Estructura)
 
                     clave =  textFieldllaveCi.getText();
+                    delimitador = textFieldDelimitador.getText();
 
                     while (entrada.hasNext()) {
                         proceso(entrada.nextLine());
@@ -258,14 +260,17 @@ public class Main extends Application {
                     String line;//--> Para las linea que leera del txt
                     boolean flag = true;
                     List<String> columns = null;
+
+                    delimitador = textFieldDelimitador.getText();
+                    
                     while (entrada.hasNext()) {
                         if (flag) {
                             //process Titulos;
-                            columns = Arrays.asList(titulo.split("\\;|\\,|\\^|\\$|\\?|\\+|\\(|\\)|\\:|\\[|\\{")); //---> delimitador
+                            columns = Arrays.asList(titulo.split(";")); //---> delimitador
                             //Se crea el objeto JSON y lo almacena temporalmente
                             JsonObject obj = new JsonObject();
                             //Información del cliente (Linea por linea del archivo)
-                            List<String> chunks = Arrays.asList(entrada.nextLine().split("\\;|\\,|\\^|\\$|\\?|\\+|\\(|\\)|\\:|\\[|\\{")); //---> delimitador
+                            List<String> chunks = Arrays.asList(entrada.nextLine().split(delimitador)); //---> delimitador
                             for (int i = 0; i < columns.size(); i++) {
                                 obj.addProperty(columns.get(i), chunks.get(i));
                             }
@@ -329,6 +334,7 @@ public class Main extends Application {
                         NodeList nList = doc.getElementsByTagName("cliente");
 
                         clave =  textFieldllaveCi.getText();
+                        delimitador = textFieldDelimitador.getText();
 
                         int cont = 1;
                         //Nodo Padre
@@ -343,8 +349,7 @@ public class Main extends Application {
                                         Node nd = nl.item(j);
                                         String name = nd.getTextContent();
                                         if(j==0){
-                                            writer.write(cont+";");
-                                            //System.out.println(cont+";");
+                                            writer.write(cont+delimitador);
                                             cont++;
                                         }
                                         //Compruebo que no este vacio y escribo en el archivo.txt
@@ -358,7 +363,7 @@ public class Main extends Application {
                                             }
                                             //Para que el último dato no tenga el delimitador
                                             if (j < nl.getLength() - 2) {
-                                                writer.write(";");
+                                                writer.write(delimitador);
                                             }
                                         }
                                     }
@@ -399,6 +404,9 @@ public class Main extends Application {
 
                     JSONParser parser = new JSONParser();
                     JSONArray a = null;
+
+                    delimitador = textFieldDelimitador.getText();
+                    
                     try {
                         a = (JSONArray) parser.parse(new FileReader(archivo));
                     } catch (IOException e) {
@@ -420,27 +428,27 @@ public class Main extends Application {
                             String telefono = (String) jsonObject.get("telefono");
                             if (jsonObject.get("id") == id) {
                                 writer.write(id);
-                                writer.write(";");
+                                writer.write(delimitador);
                             }
                             if (jsonObject.get("documento") == doc) {
                                 writer.write(doc);
-                                writer.write(";");
+                                writer.write(delimitador);
                             }
                             if (jsonObject.get("primer-nombre") == nombre) {
                                 writer.write(nombre);
-                                writer.write(";");
+                                writer.write(delimitador);
                             }
                             if (jsonObject.get("apellido") == apellido) {
                                 writer.write(apellido);
-                                writer.write(";");
+                                writer.write(delimitador);
                             }
                             if (jsonObject.get("credit-card") == nTarjeta) {
                                 writer.write(nTarjeta);
-                                writer.write(";");
+                                writer.write(delimitador);
                             }
                             if (jsonObject.get("tipo") == tipo) {
                                 writer.write(tipo);
-                                writer.write(";");
+                                writer.write(delimitador);
                             }
                             if (jsonObject.get("telefono") == telefono) {
                                 writer.write(telefono);
@@ -502,7 +510,7 @@ public class Main extends Application {
     //FUNCION de Proceso para crear el archivo.xml a traves de la informacion del archivo.txt
     public static void proceso (String s) throws SAXException, org.xml.sax.SAXException {
 
-        String[] elements = s.split("\\;|\\,|\\^|\\$|\\?|\\+|\\(|\\)|\\:|\\[|\\{"); //--->Delimitador
+        String[] elements = s.split(delimitador); //--->Delimitador
         atts.clear();
         th.startElement("", "", "cliente", atts);
 
