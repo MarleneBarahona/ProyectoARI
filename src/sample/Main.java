@@ -40,7 +40,6 @@ import java.util.Scanner;
 
 public class Main extends Application {
 
-    Button buttonTXTtoXML, buttonTXTtoJSON;
     Button b1, b2, b3, b4;
     private static StreamResult out;
     private static AttributesImpl atts;
@@ -58,7 +57,6 @@ public class Main extends Application {
         Stage contenido = new Stage();
         TextArea jta1 = new TextArea();
         jta1.setPrefSize(440,300);
-        //jta1.getId(idk);
         b1 = new Button("Seleccionar archivo");
         b2 = new Button("Convertir este archivo");
         b3 = new Button("Mostrar archivo");
@@ -69,8 +67,8 @@ public class Main extends Application {
         b2.setDisable(true);
         Button convert1 = new Button("Convertir a XML");
         Button convert2 = new Button("Convertir a JSON");
-        Button convert3 = new Button("Convertir a TXT");
-        Button convert4 = new Button("Convert 4");
+        Button convert3 = new Button("Convertir de XML a TXT");
+        Button convert4 = new Button("Convertir de JSON a TXT ");
         HBox opcionesConvert = new HBox(3);
         opcionesConvert.setAlignment(Pos.CENTER);
         opcionesConvert.getChildren().addAll(convert1,convert2,convert3,convert4);
@@ -117,8 +115,6 @@ public class Main extends Application {
             selectorArchivos.setFileFilter(filtroTXT);
             selectorArchivos.showOpenDialog(selectorArchivos);
             archivo = selectorArchivos.getSelectedFile();
-            //System.out.println(archivo.getName());
-            // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
             textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
             b2.setDisable(false);
@@ -146,19 +142,21 @@ public class Main extends Application {
             selectorArchivos.setFileFilter(filtroTXT);
             selectorArchivos.showOpenDialog(selectorArchivos);
             archivo = selectorArchivos.getSelectedFile();
-            //System.out.println(archivo.getName());
-            // File archivo = new File("C:/Users/Marlene/Desktop/idk.xml");
             textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
         });
         b2.setOnAction(event -> {
             //aqui debemos meter dependiendo de que archivo selecciona
-            String ext = archivo.getName();
+            String ext = archivo.getName().substring(archivo.getName().lastIndexOf("."));
             System.out.println(ext);
-            //if(ext == "Cliente.txt"){
-                convert1.setDisable(false);
-            //}
-             convert2.setDisable(false); convert3.setDisable(false);});
+            if(ext.equals(".txt")){
+                convert1.setDisable(false); convert2.setDisable(false); convert3.setDisable(true); convert4.setDisable(true);
+            }else if(ext.equals(".xml")){
+                convert3.setDisable(false); convert1.setDisable(true); convert2.setDisable(true); convert4.setDisable(true);
+            }else if (ext.equals(".json")){
+                convert4.setDisable(false); convert1.setDisable(true); convert2.setDisable(true); convert3.setDisable(true);
+            }
+            });
         convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -335,6 +333,88 @@ public class Main extends Application {
                     }
                 }
             });
+            
+           /* convert4.setOnAction(event -> {
+                //ELIGE DONDE GUARDAR
+                JFileChooser archivoG = new JFileChooser();
+                archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos de Texto", "txt");
+                selectorArchivos.setFileFilter(filtroG);
+                archivoG.showSaveDialog(archivoG);
+                File guarda = archivoG.getSelectedFile();
+//---------------------------------------------------------------------------------------------
+
+                if ((archivo == null) || (archivo.getName().equals(""))) {
+                    JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
+                            "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    //Archivo al que vamos a reescribir el JSON
+                    Writer writer = null;
+                    try {
+                        writer = new FileWriter(guarda + ".txt");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    JSONParser parser = new JSONParser();
+                    JSONArray a = (JSONArray) parser.parse(new FileReader(archivo));
+                    try {
+                        for (Object o : a) {
+
+                            JSONObject jsonObject = (JSONObject) o;
+
+                            String id = (String) jsonObject.get("id");
+                            String doc = (String) jsonObject.get("documento");
+                            String nombre = (String) jsonObject.get("primer-nombre");
+                            String apellido = (String) jsonObject.get("apellido");
+                            String nTarjeta = (String) jsonObject.get("credit-card");
+                            String tipo = (String) jsonObject.get("tipo");
+                            String telefono = (String) jsonObject.get("telefono");
+                            if (jsonObject.get("id") == id) {
+                                writer.write(id);
+                                writer.write(";");
+                            }
+                            if (jsonObject.get("documento") == doc) {
+                                writer.write(doc);
+                                writer.write(";");
+                            }
+                            if (jsonObject.get("primer-nombre") == nombre) {
+                                writer.write(nombre);
+                                writer.write(";");
+                            }
+                            if (jsonObject.get("apellido") == apellido) {
+                                writer.write(apellido);
+                                writer.write(";");
+                            }
+                            if (jsonObject.get("credit-card") == nTarjeta) {
+                                writer.write(nTarjeta);
+                                writer.write(";");
+                            }
+                            if (jsonObject.get("tipo") == tipo) {
+                                writer.write(tipo);
+                                writer.write(";");
+                            }
+                            if (jsonObject.get("telefono") == telefono) {
+                                writer.write(telefono);
+                                writer.write("\n");
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        // Cerramos el archivo
+                        try {
+                            //Verificamos que no este nulo
+                            if (null != writer) {
+                                writer.flush();
+                                writer.close();
+                            }
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                        }
+                    }
+                }
+            });*/
     }
     @FXML
     private void mostrarContenido(File archivo) {
