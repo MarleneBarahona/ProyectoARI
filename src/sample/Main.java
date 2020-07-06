@@ -1,5 +1,6 @@
 package sample;
 
+import com.google.gson.*;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,10 +27,9 @@ import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main extends Application {
@@ -72,6 +72,7 @@ public class Main extends Application {
         convert2.setDisable(true);
         convert3.setDisable(true);
         convert4.setDisable(true);
+
         //opcionesConvert.setDisable(true);
         Text piyu1 = new Text("Archivo seleccionado:");
         Text piyu2 = new Text("");
@@ -97,12 +98,17 @@ public class Main extends Application {
         contenido.setY(50);
         //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
+        FileNameExtensionFilter filtroTXT = new FileNameExtensionFilter("Archivos de texto", "txt");
+        FileNameExtensionFilter filtroXLM = new FileNameExtensionFilter("Archivos XML", "xml");
+        FileNameExtensionFilter filtroJSON = new FileNameExtensionFilter("Archivos JSON", "json");
         b1.setOnAction(event -> {
             jta1.clear();
             selectorArchivos = new JFileChooser();
             selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto", "txt");
-            selectorArchivos.setFileFilter(filtro);
+            //FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto", "txt");
+            selectorArchivos.setFileFilter(filtroJSON);
+            selectorArchivos.setFileFilter(filtroXLM);
+            selectorArchivos.setFileFilter(filtroTXT);
             selectorArchivos.showOpenDialog(selectorArchivos);
             archivo = selectorArchivos.getSelectedFile();
             //System.out.println(archivo.getName());
@@ -124,8 +130,9 @@ public class Main extends Application {
             jta1.clear();
             selectorArchivos = new JFileChooser();
             selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto", "txt");
-            selectorArchivos.setFileFilter(filtro);
+            selectorArchivos.setFileFilter(filtroJSON);
+            selectorArchivos.setFileFilter(filtroXLM);
+            selectorArchivos.setFileFilter(filtroTXT);
             selectorArchivos.showOpenDialog(selectorArchivos);
             archivo = selectorArchivos.getSelectedFile();
             //System.out.println(archivo.getName());
@@ -133,7 +140,8 @@ public class Main extends Application {
             piyu2.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
         });
-        b2.setOnAction(event -> {convert1.setDisable(false);});
+        b2.setOnAction(event -> {
+            convert1.setDisable(false); convert2.setDisable(false);});
         convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -147,9 +155,7 @@ public class Main extends Application {
                 JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
                         "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
             } else {
-
                 Scanner entrada = null;
-
                 try {
                     String ruta = selectorArchivos.getSelectedFile().getAbsolutePath();
                     File f = new File(ruta);
@@ -173,6 +179,79 @@ public class Main extends Application {
                     System.out.println(e.getMessage());
                 }
             }});
+
+            //convert2.setDisable(false);
+            convert2.setOnAction(event -> {
+                //Crea una matriz donde se almacenaran los datos
+                JsonArray datasets = new JsonArray();
+
+//---------------------------------------------------------------------------------------------
+                JFileChooser archivoG = new JFileChooser();
+                archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+                archivoG.showSaveDialog(archivoG);
+                File guarda = archivoG.getSelectedFile();
+//---------------------------------------------------------------------------------------------
+
+                if ((archivo == null) || (archivo.getName().equals(""))) {
+                    JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
+                            "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    Scanner entrada = null;
+                    String ruta = selectorArchivos.getSelectedFile().getAbsolutePath();
+                    File f = new File(ruta);
+                    try {
+                        entrada = new Scanner(f);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    //Titlos para el JSON
+                    String titulo = "id;documento;primer-nombre;apellido;credit-card;tipo;telefono";
+                    String line;//--> Para las linea que leera del txt
+                    boolean flag = true;
+                    List<String> columns = null;
+                    while (entrada.hasNext()) {
+                        if (flag) {
+                            //process Titulos;
+                            columns = Arrays.asList(titulo.split("\\;|\\,|\\^|\\$|\\?|\\+|\\(|\\)|\\:|\\[|\\{")); //---> delimitador
+                            //Se crea el objeto JSON y lo almacena temporalmente
+                            JsonObject obj = new JsonObject();
+                            //Información del cliente (Linea por linea del archivo)
+                            List<String> chunks = Arrays.asList(entrada.nextLine().split("\\;|\\,|\\^|\\$|\\?|\\+|\\(|\\)|\\:|\\[|\\{")); //---> delimitador
+                            for (int i = 0; i < columns.size(); i++) {
+                                obj.addProperty(columns.get(i), chunks.get(i));
+                            }
+                            //Agrega los datos a la matriz
+                            datasets.add(obj);
+                        } else {
+                            flag = false;
+                        }
+                    }
+                    //generateJWT(datasets);
+                    //Aqui se le da el formato de JSON y se empieza a crear
+                    Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
+                    Writer writer = null;
+                    try {
+                        //Se crea el fichero JSON en la ruta establecida
+                        writer = new FileWriter(guarda + ".json");
+                        //Se crea el JSON y lo escribimos en el archivo.
+                        gson.toJson(datasets, writer);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        // Cerramos el archivo
+                        try {
+                            //Verificamos que no este nulo
+                            if (null != writer) {
+                                writer.flush();
+                                writer.close();
+                            }
+                        } catch (Exception e2) {
+                            e2.printStackTrace();
+                        }
+                    }
+                }
+            });
     }
     @FXML
     private void mostrarContenido(File archivo) {
