@@ -60,13 +60,14 @@ public class Main extends Application {
         b2.setPrefSize(150,10);
         b3.setPrefSize(150,10);
         b2.setDisable(true);
-        Button convert1 = new Button("Convert 1");
-        Button convert2 = new Button("Convert 2");
-        Button convert3 = new Button("Convert 3");
+        Button convert1 = new Button("Convertir a XML");
+        Button convert2 = new Button("Convertir a JSON");
+        Button convert3 = new Button("Convertir a TXT");
         Button convert4 = new Button("Convert 4");
         HBox opcionesConvert = new HBox(3);
         opcionesConvert.setAlignment(Pos.CENTER);
         opcionesConvert.getChildren().addAll(convert1,convert2,convert3,convert4);
+        opcionesConvert.setDisable(true);
         Text piyu1 = new Text("Archivo seleccionado:");
         Text piyu2 = new Text("");
         jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
@@ -106,7 +107,7 @@ public class Main extends Application {
             b2.setDisable(false);
         }
         );
-        b3.setOnAction(event -> {jta1.clear(); b2.setDisable(true);});
+        b3.setOnAction(event -> {jta1.clear(); b2.setDisable(true); piyu2.setText("");});
         b2.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
