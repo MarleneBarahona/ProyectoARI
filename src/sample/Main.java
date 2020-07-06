@@ -26,6 +26,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.helpers.AttributesImpl;
+import sun.plugin.dom.html.HTMLBodyElement;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -51,6 +52,8 @@ public class Main extends Application {
     private static TransformerHandler th;
     private File archivo;
     private JFileChooser selectorArchivos;
+    private static String clave;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -203,6 +206,8 @@ public class Main extends Application {
                     out = new StreamResult(guarda + ".xml");
                     openXml();//---> Funcion que abre xml (Estructura)
 
+                    clave =  textFieldllaveCi.getText();
+
                     while (entrada.hasNext()) {
                         proceso(entrada.nextLine());
                     }
@@ -316,6 +321,9 @@ public class Main extends Application {
 
                         //Etiqueta va a leer para pasarla a texto
                         NodeList nList = doc.getElementsByTagName("cliente");
+
+                        clave =  textFieldllaveCi.getText();
+
                         int cont = 1;
                         //Nodo Padre
                         for (int i = 0; i < nList.getLength(); i++) {
@@ -337,7 +345,7 @@ public class Main extends Application {
                                         if (name != null && !name.trim().equals("")) {
 
                                             if(j == 7){
-                                                VigenereDescifrado vigenereDescifrado = new VigenereDescifrado(name,"CiAri");
+                                                VigenereDescifrado vigenereDescifrado = new VigenereDescifrado(name,clave);
                                                 writer.write(vigenereDescifrado.descifrado);
                                             }else{
                                                 writer.write(nd.getTextContent().trim());
@@ -507,7 +515,7 @@ public class Main extends Application {
         boolean ban = true;
         th.startElement("", "", "credit-card", atts);
         while (ban){
-            VigenereCifrado vigenere = new VigenereCifrado(elements[4],"CiAri");
+            VigenereCifrado vigenere = new VigenereCifrado(elements[4],clave);
             th.characters(vigenere.cifrado, 0, elements[4].length());
             ban= false;
         }
