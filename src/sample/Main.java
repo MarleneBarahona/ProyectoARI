@@ -99,7 +99,7 @@ public class Main extends Application {
             b2.setDisable(false);
         }
         );
-        b3.setOnAction(event -> jta1.clear());
+        b3.setOnAction(event -> {jta1.clear(); b2.setDisable(true);});
         b2.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
