@@ -59,8 +59,15 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 400, 375));
         //primaryStage.show();
         Stage contenido = new Stage();
+        //Text para nombre del archivo mostrado
+        Text text1 = new Text("Archivo seleccionado:");
+        Text textNombreArchivo = new Text("");
+        //Area para mostrar
         TextArea jta1 = new TextArea();
         jta1.setPrefSize(440,300);
+        jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
+        jta1.setEditable(false);
+        //Opciones generales
         b1 = new Button("Seleccionar archivo");
         b2 = new Button("Convertir este archivo");
         b3 = new Button("Mostrar archivo");
@@ -69,6 +76,7 @@ public class Main extends Application {
         b2.setPrefSize(150,10);
         b4.setPrefSize(150,10);
         b2.setDisable(true);
+        //Opciones de conversion
         Button convert1 = new Button("Convertir a XML");
         Button convert2 = new Button("Convertir a JSON");
         Button convert3 = new Button("Convertir de XML a TXT");
@@ -80,20 +88,17 @@ public class Main extends Application {
         convert2.setDisable(true);
         convert3.setDisable(true);
         convert4.setDisable(true);
-
-        //opcionesConvert.setDisable(true);
-        Text text1 = new Text("Archivo seleccionado:");
-        Text textNombreArchivo = new Text("");
-        jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
-        jta1.setEditable(false);
+        //Imagen de nombre del SW
         Image nombrexd = new Image(getClass().getResourceAsStream("/sample/Imagen1.PNG"));
         ImageView imageView = new ImageView(nombrexd);
         imageView.setFitWidth(300);
         imageView.setFitHeight(80);
+
         VBox layout = new VBox(7);
         layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
+        //Background
         Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
         // new BackgroundSize(width, height, widthAsPercentage, heightAsPercentage, contain, cover)
         BackgroundSize backgroundSize = new BackgroundSize(400, 400, true, true, true, false);
@@ -101,14 +106,17 @@ public class Main extends Application {
         BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         // new Background(images...)
         layout.setBackground(new Background(backgroundImage));
-        contenido.setScene(new Scene(layout,580,620));
+
+        contenido.setScene(new Scene(layout,580,660));
         contenido.setX(400);
-        contenido.setY(45);
+        contenido.setY(25);
         //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
+        //Filtros para los FileChooser
         FileNameExtensionFilter filtroTXT = new FileNameExtensionFilter("Archivos de texto", "txt");
         FileNameExtensionFilter filtroXLM = new FileNameExtensionFilter("Archivos XML", "xml");
         FileNameExtensionFilter filtroJSON = new FileNameExtensionFilter("Archivos JSON", "json");
+        //Al presionar b1 (Seleccionar archivo)
         b1.setOnAction(event -> {
             jta1.clear();
             selectorArchivos = new JFileChooser();
@@ -124,6 +132,7 @@ public class Main extends Application {
             b2.setDisable(false);
         }
         );
+        //Al presionar b4 (Cancelar)
         b4.setOnAction(event -> {
             jta1.clear();
             b2.setDisable(true);
@@ -132,6 +141,7 @@ public class Main extends Application {
             convert2.setDisable(true);
             convert3.setDisable(true);
             convert4.setDisable(true);});
+        //Al presionar b3 (Mostrar archivo)
         b3.setOnAction(event -> {
             jta1.clear();
             b2.setDisable(true);
@@ -149,8 +159,8 @@ public class Main extends Application {
             textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
         });
+        //Al presionar b2 (Convertir archivo) Habilita qué opciones de conversion se tienen
         b2.setOnAction(event -> {
-            //aqui debemos meter dependiendo de que archivo selecciona
             String ext = archivo.getName().substring(archivo.getName().lastIndexOf("."));
             System.out.println(ext);
             if(ext.equals(".txt")){
@@ -161,6 +171,7 @@ public class Main extends Application {
                 convert4.setDisable(false); convert1.setDisable(true); convert2.setDisable(true); convert3.setDisable(true);
             }
             });
+        //Al presionar convert1 (Convertir a XML)
         convert1.setOnAction(event -> {
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -169,7 +180,6 @@ public class Main extends Application {
             archivoG.showSaveDialog(archivoG);
             File guarda = archivoG.getSelectedFile();
     //--------------------------------------------------------------------------------------------
-
             if ((archivo == null) || (archivo.getName().equals(""))) {
                 JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
                         "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
@@ -199,18 +209,16 @@ public class Main extends Application {
                 }
             }});
 
-            //convert2.setDisable(false);
+        //Al presionar convert2 (Convertir a JSON)
             convert2.setOnAction(event -> {
                 //Crea una matriz donde se almacenaran los datos
                 JsonArray datasets = new JsonArray();
-
 //---------------------------------------------------------------------------------------------
                 JFileChooser archivoG = new JFileChooser();
                 archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
                 archivoG.showSaveDialog(archivoG);
                 File guarda = archivoG.getSelectedFile();
 //---------------------------------------------------------------------------------------------
-
                 if ((archivo == null) || (archivo.getName().equals(""))) {
                     JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
                             "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
@@ -223,7 +231,7 @@ public class Main extends Application {
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
-                    //Titlos para el JSON
+                    //Titulos para el JSON
                     String titulo = "id;documento;primer-nombre;apellido;credit-card;tipo;telefono";
                     String line;//--> Para las linea que leera del txt
                     boolean flag = true;
@@ -271,6 +279,7 @@ public class Main extends Application {
                     }
                 }
             });
+        //Al presionar convert3 (Convertir de XML a TXT)
             convert3.setOnAction(event -> {
                 //ELIGE DONDE GUARDAR
                 JFileChooser archivoG = new JFileChooser();
@@ -337,7 +346,8 @@ public class Main extends Application {
                     }
                 }
             });
-            
+
+        //Al presionar convert4 (Convertir de JSON a TXT)
            convert4.setOnAction(event -> {
                 //ELIGE DONDE GUARDAR
                 JFileChooser archivoG = new JFileChooser();
@@ -347,7 +357,6 @@ public class Main extends Application {
                 archivoG.showSaveDialog(archivoG);
                 File guarda = archivoG.getSelectedFile();
 //---------------------------------------------------------------------------------------------
-
                 if ((archivo == null) || (archivo.getName().equals(""))) {
                     JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
                             "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
