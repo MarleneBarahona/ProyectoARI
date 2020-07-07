@@ -1,6 +1,8 @@
 package sample;
 
 import com.google.gson.*;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +42,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,11 +59,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setX(110);
         primaryStage.setY(50);
-        primaryStage.setScene(new Scene(root, 400, 375));
+        //primaryStage.setScene(new Scene(root, 400, 375));
         //primaryStage.show();
         Stage contenido = new Stage();
         //Text para nombre del archivo mostrado
@@ -106,23 +109,23 @@ public class Main extends Application {
         HBoxDelimitador.setAlignment(Pos.CENTER);
         //HBoxDelimitador.setDisable(true);
         //Imagen de nombre del SW
-        Image nombrexd = new Image(getClass().getResourceAsStream("/sample/Imagen1.PNG"));
-        ImageView imageView = new ImageView(nombrexd);
-        imageView.setFitWidth(300);
-        imageView.setFitHeight(80);
+        //Image nombrexd = new Image(getClass().getResourceAsStream("sample/Imagen1.PNG"));
+        //ImageView imageView = new ImageView(nombrexd);
+        //imageView.setFitWidth(300);
+        //imageView.setFitHeight(80);
 
         VBox layout = new VBox(7);
-        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
+        layout.getChildren().addAll(text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         //Background
-        Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
+        //Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
         // new BackgroundSize(width, height, widthAsPercentage, heightAsPercentage, contain, cover)
         BackgroundSize backgroundSize = new BackgroundSize(400, 400, true, true, true, false);
         // new BackgroundImage(image, repeatX, repeatY, position, size)
-        BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+        //BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         // new Background(images...)
-        layout.setBackground(new Background(backgroundImage));
+        //layout.setBackground(new Background(backgroundImage));
 
         contenido.setScene(new Scene(layout,580,680));
         contenido.setX(400);
@@ -179,9 +182,9 @@ public class Main extends Application {
         //Al presionar b2 (Convertir archivo) Habilita qué opciones de conversion se tienen
         b2.setOnAction(event -> {
             llaveCi.setDisable(false);
-            System.out.println(textFieldllaveCi.getText());
+            //System.out.println(textFieldllaveCi.getText());
             String ext = archivo.getName().substring(archivo.getName().lastIndexOf("."));
-            System.out.println(ext);
+            //System.out.println(ext);
             if(ext.equals(".txt")){
                 convert1.setDisable(false); convert2.setDisable(false); convert3.setDisable(true); convert4.setDisable(true);
             }else if(ext.equals(".xml")){
@@ -280,7 +283,9 @@ public class Main extends Application {
                             flag = false;
                         }
                     }
-                    //generateJWT(datasets);
+
+                    generateJWT(datasets);
+
                     //Aqui se le da el formato de JSON y se empieza a crear
                     Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
                     Writer writer = null;
@@ -552,6 +557,31 @@ public class Main extends Application {
         th.endDocument();
     }
 
+    public static void generateJWT(JsonArray dataset){
+        String clave = "EstaEsUnaClaveSuperSecretaYLargaParaQueEstoFuncione";
+        byte[] decodedKey = Base64.getDecoder().decode(clave);
+        String jwt = Jwts.builder()
+                .setPayload(dataset.toString())
+                .signWith(Keys.hmacShaKeyFor(decodedKey))
+                .compact();
+
+        System.out.println("-----> JWT CREADO");
+        System.out.println(jwt);
+        System.out.println();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting()
+                .serializeNulls()
+                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+                .create();
+
+        String result = Jwts.parser()
+                .setSigningKey(Keys.hmacShaKeyFor(decodedKey))
+                .parsePlaintextJws(jwt).getBody();
+
+        System.out.println("-----> JWT Descodificado");
+        System.out.println(result);
+
+    }
 
     public static void main(String[] args) {
         launch(args);
