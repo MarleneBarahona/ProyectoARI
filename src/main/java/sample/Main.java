@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -98,15 +99,15 @@ public class Main extends Application {
         convert4.setDisable(true);
         //Para meter la llave
         Text textLlave = new Text("Llave de cifrado: ");
-        TextField textFieldllaveCi = new TextField("Introduzca la llave");
-        textFieldllaveCi.setPrefSize(190,10);
+        TextField textFieldllaveCi = new TextField("");
+        textFieldllaveCi.setPrefSize(160,10);
         HBox llaveCi = new HBox(textLlave,textFieldllaveCi);
         llaveCi.setAlignment(Pos.CENTER);
         llaveCi.setDisable(true);
         //Para meter el delimitador
         Text texDelimitador = new Text("Delimitador del archivo: ");
-        TextField textFieldDelimitador = new TextField("Introduzca el delimitador");
-        textFieldDelimitador.setPrefSize(150,10);
+        TextField textFieldDelimitador = new TextField();
+        textFieldDelimitador.setPrefSize(120,10);
         HBox HBoxDelimitador = new HBox(texDelimitador,textFieldDelimitador);
         textFieldDelimitador.setDisable(true);
         HBoxDelimitador.setAlignment(Pos.CENTER);
@@ -135,12 +136,17 @@ public class Main extends Application {
         contenido.setY(13);
         //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        Alert alert2 = new Alert(Alert.AlertType.NONE);
         //Filtros para los FileChooser
         FileNameExtensionFilter filtroTXT = new FileNameExtensionFilter("Archivos de texto", "txt");
         FileNameExtensionFilter filtroXLM = new FileNameExtensionFilter("Archivos XML", "xml");
         FileNameExtensionFilter filtroJSON = new FileNameExtensionFilter("Archivos JSON", "json");
         //Al presionar b1 (Seleccionar archivo)
         b1.setOnAction(event -> {
+           /* alert.setAlertType(Alert.AlertType.ERROR);
+            alert.setContentText("No puedes hacer eso we");
+            alert.show();*/
             jta1.clear();
             selectorArchivos = new JFileChooser();
             selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -225,14 +231,25 @@ public class Main extends Application {
 
                     clave =  textFieldllaveCi.getText();
                     delimitador = textFieldDelimitador.getText();
-
-                    while (entrada.hasNext()) {
-                        proceso(entrada.nextLine());
+                    if(clave.isEmpty() || clave.equals("") ){
+                        alert.setAlertType(Alert.AlertType.ERROR);
+                        alert.setContentText("La clave no puede ir vacia ");
+                        alert.show();
                     }
+                    if (delimitador.isEmpty() || delimitador.equals("-")){
+                        //delimitador = textFieldDelimitador.getText();
+                        alert2.setAlertType(Alert.AlertType.ERROR);
+                        alert2.setContentText("El delimitador no puede ir vacio ni ser guion.");
+                        alert2.show();
+                    }else {
+                        while (entrada.hasNext()) {
+                            proceso(entrada.nextLine());
+                        }
 
-                    closeXml();//---> Funcion que cierra xml (Estructura)
-                    entrada.close();
-                    mostrarContenidoTextArea(guarda,jta1);
+                        closeXml();//---> Funcion que cierra xml (Estructura)
+                        entrada.close();
+                        //mostrarContenidoTextArea(guarda,jta1);
+                    }
                 } catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
                 } catch (NullPointerException e) {
@@ -240,7 +257,8 @@ public class Main extends Application {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            }});
+            }
+        });
 
         //Al presionar convert2 (Convertir a JSON)
             convert2.setOnAction(event -> {
