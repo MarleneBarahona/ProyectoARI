@@ -159,6 +159,8 @@ public class Main extends Application {
         b4.setOnAction(event -> {
             jta1.clear();
             b2.setDisable(true);
+            llaveCi.setDisable(true);
+            textFieldDelimitador.setDisable(true);
             textNombreArchivo.setText("");
             convert1.setDisable(true);
             convert2.setDisable(true);
@@ -195,6 +197,7 @@ public class Main extends Application {
                 convert3.setDisable(false); convert1.setDisable(true); convert2.setDisable(true); convert4.setDisable(true);
             }else if (ext.equals(".json")){
                 convert4.setDisable(false); convert1.setDisable(true); convert2.setDisable(true); convert3.setDisable(true);
+                llaveCi.setDisable(true);
             }
             });
         //Al presionar convert1 (Convertir a XML)
@@ -389,7 +392,6 @@ public class Main extends Application {
 
         //Al presionar convert4 (Convertir de JSON a TXT)
            convert4.setOnAction(event -> {
-               //llaveCi.setDisable(false);
                 //ELIGE DONDE GUARDAR
                 JFileChooser archivoG = new JFileChooser();
                 archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
