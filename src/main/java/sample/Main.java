@@ -166,6 +166,10 @@ public class Main extends Application {
             jta1.clear();
             b2.setDisable(true);
             llaveCi.setDisable(true);
+            textFieldllaveCi.setText("");
+            //textFieldllaveCi.clear();
+            //textFieldDelimitador.clear();
+            textFieldDelimitador.setText("");
             textFieldDelimitador.setDisable(true);
             textNombreArchivo.setText("");
             convert1.setDisable(true);
@@ -226,26 +230,26 @@ public class Main extends Application {
                     File f = new File(ruta);
                     entrada = new Scanner(f);
 
-                    out = new StreamResult(guarda + ".xml");
-                    openXml();//---> Funcion que abre xml (Estructura)
-
                     clave =  textFieldllaveCi.getText();
                     delimitador = textFieldDelimitador.getText();
-                    if(clave.isEmpty() || clave.equals("") ){
-                        alert.setAlertType(Alert.AlertType.ERROR);
-                        alert.setContentText("La clave no puede ir vacia ");
-                        alert.show();
-                    }
-                    if (delimitador.isEmpty() || delimitador.equals("-")){
-                        //delimitador = textFieldDelimitador.getText();
-                        alert2.setAlertType(Alert.AlertType.ERROR);
-                        alert2.setContentText("El delimitador no puede ir vacio ni ser guion.");
-                        alert2.show();
-                    }else {
+                    if(clave.isEmpty() || clave.equals("") || delimitador.isEmpty() || delimitador.equals("-")){
+                        if(clave.isEmpty() || clave.equals("") ){
+                            alert.setAlertType(Alert.AlertType.ERROR);
+                            alert.setContentText("La clave no puede ir vacia ");
+                            alert.show();
+                        }
+                        if (delimitador.isEmpty() || delimitador.equals("-")){
+                            //delimitador = textFieldDelimitador.getText();
+                            alert2.setAlertType(Alert.AlertType.ERROR);
+                            alert2.setContentText("El delimitador no puede ir vacio ni ser guion.");
+                            alert2.show();
+                        }
+                    }else{
+                        out = new StreamResult(guarda + ".xml");
+                        openXml();//---> Funcion que abre xml (Estructura)
                         while (entrada.hasNext()) {
                             proceso(entrada.nextLine());
                         }
-
                         closeXml();//---> Funcion que cierra xml (Estructura)
                         entrada.close();
                         //mostrarContenidoTextArea(guarda,jta1);
