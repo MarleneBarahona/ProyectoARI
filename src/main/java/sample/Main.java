@@ -5,10 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import javafx.application.Application;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -45,6 +43,9 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Scanner;
+
+//import javax.swing.*;
+
 
 public class Main extends Application {
 
@@ -98,38 +99,40 @@ public class Main extends Application {
         //Para meter la llave
         Text textLlave = new Text("Llave de cifrado: ");
         TextField textFieldllaveCi = new TextField("Introduzca la llave");
+        textFieldllaveCi.setPrefSize(190,10);
         HBox llaveCi = new HBox(textLlave,textFieldllaveCi);
         llaveCi.setAlignment(Pos.CENTER);
         llaveCi.setDisable(true);
         //Para meter el delimitador
         Text texDelimitador = new Text("Delimitador del archivo: ");
-        TextField textFieldDelimitador = new TextField("Introduzca el delimitador: ");
-        textFieldDelimitador.setPrefSize(110,10);
+        TextField textFieldDelimitador = new TextField("Introduzca el delimitador");
+        textFieldDelimitador.setPrefSize(150,10);
         HBox HBoxDelimitador = new HBox(texDelimitador,textFieldDelimitador);
+        textFieldDelimitador.setDisable(true);
         HBoxDelimitador.setAlignment(Pos.CENTER);
         //HBoxDelimitador.setDisable(true);
         //Imagen de nombre del SW
-        //Image nombrexd = new Image(getClass().getResourceAsStream("sample/Imagen1.PNG"));
-        //ImageView imageView = new ImageView(nombrexd);
-        //imageView.setFitWidth(300);
-        //imageView.setFitHeight(80);
+        Image nombrexd = new Image("https://pbs.twimg.com/media/EcTb64PWAAAZC-N?format=png&name=small");
+        ImageView imageView = new ImageView(nombrexd);
+        imageView.setFitWidth(300);
+        imageView.setFitHeight(80);
 
         VBox layout = new VBox(7);
-        layout.getChildren().addAll(text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
+        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
         //Background
-        //Image imageMenu = new Image(getClass().getResourceAsStream("/sample/Imagen3.png"));
         // new BackgroundSize(width, height, widthAsPercentage, heightAsPercentage, contain, cover)
-        BackgroundSize backgroundSize = new BackgroundSize(400, 400, true, true, true, false);
+        Image imageMenu = new Image("https://pbs.twimg.com/media/EcTb64NWsAAE6He?format=jpg&name=medium");
+        BackgroundSize backgroundSize = new BackgroundSize(400, 550, true, true, true, false);
         // new BackgroundImage(image, repeatX, repeatY, position, size)
-        //BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
+        BackgroundImage backgroundImage = new BackgroundImage(imageMenu, BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.DEFAULT, backgroundSize);
         // new Background(images...)
-        //layout.setBackground(new Background(backgroundImage));
+        layout.setBackground(new Background(backgroundImage));
 
         contenido.setScene(new Scene(layout,580,680));
         contenido.setX(400);
-        contenido.setY(15);
+        contenido.setY(13);
         //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
         //Filtros para los FileChooser
@@ -182,6 +185,7 @@ public class Main extends Application {
         //Al presionar b2 (Convertir archivo) Habilita qué opciones de conversion se tienen
         b2.setOnAction(event -> {
             llaveCi.setDisable(false);
+            textFieldDelimitador.setDisable(false);
             //System.out.println(textFieldllaveCi.getText());
             String ext = archivo.getName().substring(archivo.getName().lastIndexOf("."));
             //System.out.println(ext);
