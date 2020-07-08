@@ -232,16 +232,21 @@ public class Main extends Application {
 
                     clave =  textFieldllaveCi.getText();
                     delimitador = textFieldDelimitador.getText();
-                    if(clave.isEmpty() || clave.equals("") || delimitador.isEmpty() || delimitador.equals("-")){
+                    //System.out.println(delimitador.replaceAll("[dA-Za-z]", ""));
+                    if(delimitador.length()>1){
+                        System.out.println("es más largo we, así no puedo");
+                    }
+                    if(clave.isEmpty() || clave.equals("") || delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]")){
                         if(clave.isEmpty() || clave.equals("") ){
                             alert.setAlertType(Alert.AlertType.ERROR);
                             alert.setContentText("La clave no puede ir vacia ");
                             alert.show();
                         }
-                        if (delimitador.isEmpty() || delimitador.equals("-")){
+                        //delimitador.matches("")
+                        if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]"))){
                             //delimitador = textFieldDelimitador.getText();
                             alert2.setAlertType(Alert.AlertType.ERROR);
-                            alert2.setContentText("El delimitador no puede ir vacio ni ser guion.");
+                            alert2.setContentText("El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
                             alert2.show();
                         }
                     }else{
