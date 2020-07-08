@@ -60,12 +60,7 @@ public class Main extends Application {
     private static String delimitador;
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-
-        primaryStage.setTitle("Hello World");
-        primaryStage.setX(110);
-        primaryStage.setY(50);
-        Stage contenido = new Stage();
+    public void start(Stage contenido) throws Exception{
 
         //Text para nombre del archivo mostrado
         Text text1 = new Text("Archivo seleccionado:");
@@ -116,14 +111,19 @@ public class Main extends Application {
         textFieldDelimitador.setDisable(true);
         HBoxDelimitador.setAlignment(Pos.CENTER);
 
+        //Delimitador que debe ir en el TextField
+        Text texDelimitadorC = new Text("El archivo debe contener este caracter como delimitador.");
+        HBox HBoxDelimitadorC = new HBox(texDelimitadorC);
+        HBoxDelimitadorC.setAlignment(Pos.CENTER);
+
         //Imagen de nombre del SW
         Image nombrexd = new Image("https://pbs.twimg.com/media/EcTb64PWAAAZC-N?format=png&name=small");
         ImageView imageView = new ImageView(nombrexd);
         imageView.setFitWidth(300);
         imageView.setFitHeight(80);
 
-        VBox layout = new VBox(7);
-        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
+        VBox layout = new VBox(6);
+        layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador,HBoxDelimitadorC,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
 
@@ -136,9 +136,9 @@ public class Main extends Application {
         // new Background(images...)
         layout.setBackground(new Background(backgroundImage));
 
-        contenido.setScene(new Scene(layout,580,680));
+        contenido.setScene(new Scene(layout,580,690));
         contenido.setX(400);
-        contenido.setY(13);
+        contenido.setY(5);
         contenido.show();
         Alert alert = new Alert(Alert.AlertType.NONE);
         Alert alert2 = new Alert(Alert.AlertType.NONE);
