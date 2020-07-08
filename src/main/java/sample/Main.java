@@ -61,12 +61,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setX(110);
         primaryStage.setY(50);
-        //primaryStage.setScene(new Scene(root, 400, 375));
-        //primaryStage.show();
         Stage contenido = new Stage();
         //Text para nombre del archivo mostrado
         Text text1 = new Text("Archivo seleccionado:");
@@ -111,7 +108,6 @@ public class Main extends Application {
         HBox HBoxDelimitador = new HBox(texDelimitador,textFieldDelimitador);
         textFieldDelimitador.setDisable(true);
         HBoxDelimitador.setAlignment(Pos.CENTER);
-        //HBoxDelimitador.setDisable(true);
         //Imagen de nombre del SW
         Image nombrexd = new Image("https://pbs.twimg.com/media/EcTb64PWAAAZC-N?format=png&name=small");
         ImageView imageView = new ImageView(nombrexd);
@@ -134,7 +130,6 @@ public class Main extends Application {
         contenido.setScene(new Scene(layout,580,680));
         contenido.setX(400);
         contenido.setY(13);
-        //contenido.initStyle(StageStyle.TRANSPARENT);
         contenido.show();
         Alert alert = new Alert(Alert.AlertType.NONE);
         Alert alert2 = new Alert(Alert.AlertType.NONE);
@@ -144,13 +139,9 @@ public class Main extends Application {
         FileNameExtensionFilter filtroJSON = new FileNameExtensionFilter("Archivos JSON", "json");
         //Al presionar b1 (Seleccionar archivo)
         b1.setOnAction(event -> {
-           /* alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("No puedes hacer eso we");
-            alert.show();*/
             jta1.clear();
             selectorArchivos = new JFileChooser();
             selectorArchivos.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            //FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto", "txt");
             selectorArchivos.setFileFilter(filtroJSON);
             selectorArchivos.setFileFilter(filtroXLM);
             selectorArchivos.setFileFilter(filtroTXT);
@@ -161,14 +152,13 @@ public class Main extends Application {
             b2.setDisable(false);
         }
         );
+
         //Al presionar b4 (Cancelar)
         b4.setOnAction(event -> {
             jta1.clear();
             b2.setDisable(true);
             llaveCi.setDisable(true);
             textFieldllaveCi.setText("");
-            //textFieldllaveCi.clear();
-            //textFieldDelimitador.clear();
             textFieldDelimitador.setText("");
             textFieldDelimitador.setDisable(true);
             textNombreArchivo.setText("");
@@ -176,6 +166,7 @@ public class Main extends Application {
             convert2.setDisable(true);
             convert3.setDisable(true);
             convert4.setDisable(true);});
+
         //Al presionar b3 (Mostrar archivo)
         b3.setOnAction(event -> {
             jta1.clear();
@@ -194,13 +185,12 @@ public class Main extends Application {
             textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
         });
+
         //Al presionar b2 (Convertir archivo) Habilita qué opciones de conversion se tienen
         b2.setOnAction(event -> {
             llaveCi.setDisable(false);
             textFieldDelimitador.setDisable(false);
-            //System.out.println(textFieldllaveCi.getText());
             String ext = archivo.getName().substring(archivo.getName().lastIndexOf("."));
-            //System.out.println(ext);
             if(ext.equals(".txt")){
                 convert1.setDisable(false); convert2.setDisable(false); convert3.setDisable(true); convert4.setDisable(true);
             }else if(ext.equals(".xml")){
@@ -210,13 +200,11 @@ public class Main extends Application {
                 llaveCi.setDisable(true);
             }
             });
+
         //Al presionar convert1 (Convertir a XML)
         convert1.setOnAction(event -> {
-            //llaveCi.setDisable(false);
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            //FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos XML", "xml");
-            //selectorArchivos.setFileFilter(filtroG);
             archivoG.showSaveDialog(archivoG);
             File guarda = archivoG.getSelectedFile();
     //--------------------------------------------------------------------------------------------
@@ -232,21 +220,18 @@ public class Main extends Application {
 
                     clave =  textFieldllaveCi.getText();
                     delimitador = textFieldDelimitador.getText();
-                    //System.out.println(delimitador.replaceAll("[dA-Za-z]", ""));
-                    if(delimitador.length()>1){
-                        System.out.println("es más largo we, así no puedo");
-                    }
-                    if(clave.isEmpty() || clave.equals("") || delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]")){
+
+                    //Validacion para clave y delimitadores que no esten vacios
+                    //Delimitador: sin guion, sin letras, sin numeros
+                    if(clave.isEmpty() || clave.equals("") || delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]") || delimitador.length()>1){
                         if(clave.isEmpty() || clave.equals("") ){
                             alert.setAlertType(Alert.AlertType.ERROR);
-                            alert.setContentText("La clave no puede ir vacia ");
+                            alert.setContentText("Problemas al convertir el archivo. \n*La clave no puede ir vacia ");
                             alert.show();
                         }
-                        //delimitador.matches("")
-                        if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]"))){
-                            //delimitador = textFieldDelimitador.getText();
+                        if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]")) || delimitador.length()>1){
                             alert2.setAlertType(Alert.AlertType.ERROR);
-                            alert2.setContentText("El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
+                            alert2.setContentText("Problemas al convertir el archivo. \n El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
                             alert2.show();
                         }
                     }else{
@@ -257,7 +242,6 @@ public class Main extends Application {
                         }
                         closeXml();//---> Funcion que cierra xml (Estructura)
                         entrada.close();
-                        //mostrarContenidoTextArea(guarda,jta1);
                     }
                 } catch (FileNotFoundException e) {
                     System.out.println(e.getMessage());
@@ -271,7 +255,6 @@ public class Main extends Application {
 
         //Al presionar convert2 (Convertir a JSON)
             convert2.setOnAction(event -> {
-               // llaveCi.setDisable(false);
                 //Crea una matriz donde se almacenaran los datos
                 JsonArray datasets = new JsonArray();
 //---------------------------------------------------------------------------------------------
@@ -299,7 +282,7 @@ public class Main extends Application {
                     List<String> columns = null;
 
                     delimitador = textFieldDelimitador.getText();
-                    
+
                     while (entrada.hasNext()) {
                         if (flag) {
                             //process Titulos;
@@ -324,11 +307,22 @@ public class Main extends Application {
                     Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
                     Writer writer = null;
                     try {
-                        //Se crea el fichero JSON en la ruta establecida
-                        writer = new FileWriter(guarda + ".json");
-                        //Se crea el JSON y lo escribimos en el archivo.
-                        gson.toJson(datasets, writer);
 
+                        //Validacion para clave y delimitadores que no esten vacios
+                        //Delimitador: sin guion, sin letras, sin numeros
+                        if(delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]") || delimitador.length()>1){
+                            if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]")) || delimitador.length()>1){
+                                alert2.setAlertType(Alert.AlertType.ERROR);
+                                alert2.setContentText("Problemas al convertir el archivo. \n El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
+                                alert2.show();
+                            }
+                        }else {
+
+                            //Se crea el fichero JSON en la ruta establecida
+                            writer = new FileWriter(guarda + ".json");
+                            //Se crea el JSON y lo escribimos en el archivo.
+                            gson.toJson(datasets, writer);
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {

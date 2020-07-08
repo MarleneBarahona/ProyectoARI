@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="ProyectoRiesgos.jnlp">
+  <information>
+    <title>ProyectoRiesgos</title>
+    <vendor>Unknown</vendor>
+    <description>ProyectoRiesgos</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="ProyectoRiesgos.jar" size="21485" download="eager" />
+    <jar href="aopalliance-1.0.jar" size="4467" download="eager" />
+    <jar href="commons-logging-1.2.jar" size="61829" download="eager" />
+    <jar href="gson-2.8.2.jar" size="232932" download="eager" />
+    <jar href="gson-2.8.6.jar" size="240255" download="eager" />
+    <jar href="jackson-annotations-2.9.0.jar" size="66519" download="eager" />
+    <jar href="jackson-core-2.9.9.jar" size="325632" download="eager" />
+    <jar href="jackson-core-lgpl-0.9.7.jar" size="126446" download="eager" />
+    <jar href="jackson-databind-2.9.9.1.jar" size="1348229" download="eager" />
+    <jar href="jjwt-api-0.10.7.jar" size="74090" download="eager" />
+    <jar href="jjwt-impl-0.10.7.jar" size="69390" download="eager" />
+    <jar href="jjwt-jackson-0.10.7.jar" size="4706" download="eager" />
+    <jar href="json-jackson-2.2.jar" size="10555" download="eager" />
+    <jar href="json-simple-2.1.2.jar" size="57607" download="eager" />
+    <jar href="org.codehaus.jackson.mapper.jar" size="386853" download="eager" />
+    <jar href="spring-aop-5.2.3.RELEASE.jar" size="372716" download="eager" />
+    <jar href="spring-aspects-5.2.3.RELEASE.jar" size="47266" download="eager" />
+    <jar href="spring-beans-5.2.3.RELEASE.jar" size="684706" download="eager" />
+    <jar href="spring-context-5.2.3.RELEASE.jar" size="1221408" download="eager" />
+    <jar href="spring-context-support-5.2.3.RELEASE.jar" size="182130" download="eager" />
+    <jar href="spring-core-5.2.3.RELEASE.jar" size="1434206" download="eager" />
+    <jar href="spring-expression-5.2.3.RELEASE.jar" size="282010" download="eager" />
+    <jar href="spring-instrument-5.2.3.RELEASE.jar" size="7366" download="eager" />
+    <jar href="spring-jdbc-5.2.3.RELEASE.jar" size="406693" download="eager" />
+    <jar href="spring-jms-5.2.3.RELEASE.jar" size="261822" download="eager" />
+    <jar href="spring-messaging-5.2.3.RELEASE.jar" size="542524" download="eager" />
+    <jar href="spring-orm-5.2.3.RELEASE.jar" size="200874" download="eager" />
+    <jar href="spring-oxm-5.2.3.RELEASE.jar" size="63969" download="eager" />
+    <jar href="spring-test-5.2.3.RELEASE.jar" size="679226" download="eager" />
+    <jar href="spring-tx-5.2.3.RELEASE.jar" size="314314" download="eager" />
+    <jar href="spring-web-5.2.3.RELEASE.jar" size="1428664" download="eager" />
+    <jar href="spring-webmvc-5.2.3.RELEASE.jar" size="946319" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="sample.Main"  name="ProyectoRiesgos" />
+  <update check="background"/>
+</jnlp>

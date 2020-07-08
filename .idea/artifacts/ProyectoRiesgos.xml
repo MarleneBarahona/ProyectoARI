@@ -1,0 +1,52 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="ProyectoRiesgos">
+    <output-path>$PROJECT_DIR$/out/artifacts/ProyectoRiesgos</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="sample.Main" />
+        <option name="description" value="" />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="nativeBundle" value="all" />
+        <option name="title" value="" />
+        <option name="vendor" value="" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="ProyectoRiesgos.jar">
+        <element id="module-output" name="ProyectoRiesgos" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/gson-2.8.2.jar" />
+        <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-jackson:0.10.7" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/aopalliance-1.0.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/commons-logging-1.2.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/jackson-core-lgpl-0.9.7.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/json-jackson-2.2.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/json-simple-2.1.2.jar" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.9" />
+        <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.9.1" />
+        <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.6" />
+        <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-api:0.10.7" />
+        <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-impl:0.10.7" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/org.codehaus.jackson.mapper.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-aop-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-aspects-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-beans-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-context-support-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-context-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-expression-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-instrument-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-core-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-jdbc-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-messaging-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-orm-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-oxm-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-test-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-web-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-tx-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-jms-5.2.3.RELEASE.jar" />
+        <element id="file-copy" path="$PROJECT_DIR$/libs/spring-webmvc-5.2.3.RELEASE.jar" />
+      </element>
+    </root>
+  </artifact>
+</component>
