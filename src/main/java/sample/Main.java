@@ -61,18 +61,22 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         primaryStage.setTitle("Hello World");
         primaryStage.setX(110);
         primaryStage.setY(50);
         Stage contenido = new Stage();
+
         //Text para nombre del archivo mostrado
         Text text1 = new Text("Archivo seleccionado:");
         Text textNombreArchivo = new Text("");
+
         //Area para mostrar
         TextArea jta1 = new TextArea();
         jta1.setPrefSize(440,300);
         jta1.setText("Aqui se mostrara el contenido del archivo seleccionado");
         jta1.setEditable(false);
+
         //Opciones generales
         b1 = new Button("Seleccionar archivo");
         b2 = new Button("Convertir este archivo");
@@ -82,6 +86,7 @@ public class Main extends Application {
         b2.setPrefSize(150,10);
         b4.setPrefSize(150,10);
         b2.setDisable(true);
+
         //Opciones de conversion
         Button convert1 = new Button("Convertir a XML");
         Button convert2 = new Button("Convertir a JSON");
@@ -94,6 +99,7 @@ public class Main extends Application {
         convert2.setDisable(true);
         convert3.setDisable(true);
         convert4.setDisable(true);
+
         //Para meter la llave
         Text textLlave = new Text("Llave de cifrado: ");
         TextField textFieldllaveCi = new TextField("");
@@ -101,6 +107,7 @@ public class Main extends Application {
         HBox llaveCi = new HBox(textLlave,textFieldllaveCi);
         llaveCi.setAlignment(Pos.CENTER);
         llaveCi.setDisable(true);
+
         //Para meter el delimitador
         Text texDelimitador = new Text("Delimitador del archivo: ");
         TextField textFieldDelimitador = new TextField();
@@ -108,6 +115,7 @@ public class Main extends Application {
         HBox HBoxDelimitador = new HBox(texDelimitador,textFieldDelimitador);
         textFieldDelimitador.setDisable(true);
         HBoxDelimitador.setAlignment(Pos.CENTER);
+
         //Imagen de nombre del SW
         Image nombrexd = new Image("https://pbs.twimg.com/media/EcTb64PWAAAZC-N?format=png&name=small");
         ImageView imageView = new ImageView(nombrexd);
@@ -118,6 +126,7 @@ public class Main extends Application {
         layout.getChildren().addAll(imageView, text1, textNombreArchivo, jta1,b1,b2,opcionesConvert,llaveCi,HBoxDelimitador ,b3, b4);
         layout.setAlignment(Pos.CENTER);
         layout.setPadding(new Insets(1,5,1,5));
+
         //Background
         // new BackgroundSize(width, height, widthAsPercentage, heightAsPercentage, contain, cover)
         Image imageMenu = new Image("https://pbs.twimg.com/media/EcTb64NWsAAE6He?format=jpg&name=medium");
@@ -133,10 +142,12 @@ public class Main extends Application {
         contenido.show();
         Alert alert = new Alert(Alert.AlertType.NONE);
         Alert alert2 = new Alert(Alert.AlertType.NONE);
+
         //Filtros para los FileChooser
         FileNameExtensionFilter filtroTXT = new FileNameExtensionFilter("Archivos de texto", "txt");
         FileNameExtensionFilter filtroXLM = new FileNameExtensionFilter("Archivos XML", "xml");
         FileNameExtensionFilter filtroJSON = new FileNameExtensionFilter("Archivos JSON", "json");
+
         //Al presionar b1 (Seleccionar archivo)
         b1.setOnAction(event -> {
             jta1.clear();
@@ -150,8 +161,7 @@ public class Main extends Application {
             textNombreArchivo.setText(archivo.getName());
             mostrarContenidoTextArea(archivo,jta1);
             b2.setDisable(false);
-        }
-        );
+        });
 
         //Al presionar b4 (Cancelar)
         b4.setOnAction(event -> {
@@ -203,11 +213,14 @@ public class Main extends Application {
 
         //Al presionar convert1 (Convertir a XML)
         convert1.setOnAction(event -> {
+
+            //FileChooser para guardar
             JFileChooser archivoG = new JFileChooser();
             archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             archivoG.showSaveDialog(archivoG);
             File guarda = archivoG.getSelectedFile();
-    //--------------------------------------------------------------------------------------------
+
+            //Validacion para archivo que se seleeciona para leer
             if ((archivo == null) || (archivo.getName().equals(""))) {
                 JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
                         "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
@@ -218,6 +231,7 @@ public class Main extends Application {
                     File f = new File(ruta);
                     entrada = new Scanner(f);
 
+                    //Obtiene lo que el usuario coloco en el TextField
                     clave =  textFieldllaveCi.getText();
                     delimitador = textFieldDelimitador.getText();
 
@@ -254,34 +268,45 @@ public class Main extends Application {
         });
 
         //Al presionar convert2 (Convertir a JSON)
-            convert2.setOnAction(event -> {
-                //Crea una matriz donde se almacenaran los datos
-                JsonArray datasets = new JsonArray();
-//---------------------------------------------------------------------------------------------
-                JFileChooser archivoG = new JFileChooser();
-                archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                archivoG.showSaveDialog(archivoG);
-                File guarda = archivoG.getSelectedFile();
-//---------------------------------------------------------------------------------------------
-                if ((archivo == null) || (archivo.getName().equals(""))) {
-                    JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
-                            "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    Scanner entrada = null;
-                    String ruta = selectorArchivos.getSelectedFile().getAbsolutePath();
-                    File f = new File(ruta);
-                    try {
-                        entrada = new Scanner(f);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    //Titulos para el JSON
-                    String titulo = "id;documento;primer-nombre;apellido;credit-card;tipo;telefono";
-                    String line;//--> Para las linea que leera del txt
-                    boolean flag = true;
-                    List<String> columns = null;
+        convert2.setOnAction(event -> {
+            //Crea una matriz donde se almacenaran los datos
+            JsonArray datasets = new JsonArray();
 
-                    delimitador = textFieldDelimitador.getText();
+            //FileChooser para guardar
+            JFileChooser archivoG = new JFileChooser();
+            archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            archivoG.showSaveDialog(archivoG);
+            File guarda = archivoG.getSelectedFile();
+
+            if ((archivo == null) || (archivo.getName().equals(""))) {
+                JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
+                        "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
+            } else {
+                Scanner entrada = null;
+                String ruta = selectorArchivos.getSelectedFile().getAbsolutePath();
+                File f = new File(ruta);
+                try {
+                    entrada = new Scanner(f);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //Titulos para el JSON
+                String titulo = "id;documento;primer-nombre;apellido;credit-card;tipo;telefono";
+                boolean flag = true; //-->bandera
+                List<String> columns = null;
+
+                //Obtiene lo que el usuario coloco en el TextField
+                delimitador = textFieldDelimitador.getText();
+
+                //Validacion para clave y delimitadores que no esten vacios
+                //Delimitador: sin guion, sin letras, sin numeros
+                if(delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]") || delimitador.length()>1){
+                    if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]")) || delimitador.length()>1){
+                        alert2.setAlertType(Alert.AlertType.ERROR);
+                        alert2.setContentText("Problemas al convertir el archivo. \n El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
+                        alert2.show();
+                    }
+                }else {
 
                     while (entrada.hasNext()) {
                         if (flag) {
@@ -301,33 +326,22 @@ public class Main extends Application {
                         }
                     }
 
+                    //Funcion que genera el JWT
                     generateJWT(datasets);
 
                     //Aqui se le da el formato de JSON y se empieza a crear
                     Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE).create();
                     Writer writer = null;
                     try {
-
-                        //Validacion para clave y delimitadores que no esten vacios
-                        //Delimitador: sin guion, sin letras, sin numeros
-                        if(delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]") || delimitador.length()>1){
-                            if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]")) || delimitador.length()>1){
-                                alert2.setAlertType(Alert.AlertType.ERROR);
-                                alert2.setContentText("Problemas al convertir el archivo. \n El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
-                                alert2.show();
-                            }
-                        }else {
-
-                            //Se crea el fichero JSON en la ruta establecida
-                            writer = new FileWriter(guarda + ".json");
-                            //Se crea el JSON y lo escribimos en el archivo.
-                            gson.toJson(datasets, writer);
-                        }
+                        //Se crea el fichero JSON en la ruta establecida
+                        writer = new FileWriter(guarda + ".json");
+                        //Se crea el JSON y lo escribimos en el archivo.
+                        gson.toJson(datasets, writer);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {
-                        // Cerramos el archivo
                         try {
+                            // Cerramos el archivo
                             //Verificamos que no este nulo
                             if (null != writer) {
                                 writer.flush();
@@ -336,75 +350,95 @@ public class Main extends Application {
                         } catch (Exception e2) {
                             e2.printStackTrace();
                         }
-                    }
+                    }}
                 }
             });
+
         //Al presionar convert3 (Convertir de XML a TXT)
-            convert3.setOnAction(event -> {
-               // llaveCi.setDisable(false);
-                //ELIGE DONDE GUARDAR
-                JFileChooser archivoG = new JFileChooser();
-                archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos de Texto", "txt");
-                selectorArchivos.setFileFilter(filtroG);
-                archivoG.showSaveDialog(archivoG);
-                File guarda = archivoG.getSelectedFile();
-//---------------------------------------------------------------------------------------------
+        convert3.setOnAction(event -> {
 
-                if ((archivo == null) || (archivo.getName().equals(""))) {
-                    JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
-                            "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    try {
-                        //Archivo.txt que va a crear
-                        BufferedWriter writer = new BufferedWriter(new FileWriter(guarda + ".txt"));
+            //ELIGE DONDE GUARDAR
+            JFileChooser archivoG = new JFileChooser();
+            archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos de Texto", "txt");
+            selectorArchivos.setFileFilter(filtroG);
+            archivoG.showSaveDialog(archivoG);
+            File guarda = archivoG.getSelectedFile();
 
-                        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-                        Document doc = dBuilder.parse(archivo); //Archivo elegido a leer
+            if ((archivo == null) || (archivo.getName().equals(""))) {
+                JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
+                        "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
+            } else {
+                try {
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(archivo); //Archivo elegido a leer
 
-                        //Etiqueta va a leer para pasarla a texto
-                        NodeList nList = doc.getElementsByTagName("cliente");
+                    //Etiqueta va a leer para pasarla a texto
+                    NodeList nList = doc.getElementsByTagName("cliente");
 
-                        clave =  textFieldllaveCi.getText();
-                        delimitador = textFieldDelimitador.getText();
+                    //Obtiene lo que el usuario coloco en el TextField
+                    clave =  textFieldllaveCi.getText();
+                    delimitador = textFieldDelimitador.getText();
 
-                        int cont = 1;
-                        //Nodo Padre
-                        for (int i = 0; i < nList.getLength(); i++) {
-                            Node node = nList.item(i);
-                            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                                //Creo un elemento que obtendra los hijos
-                                Element eElement = (Element) node;
-                                if (eElement.hasChildNodes()) {
-                                    NodeList nl = node.getChildNodes();
-                                    for (int j = 0; j < nl.getLength(); j++) {
-                                        Node nd = nl.item(j);
-                                        String name = nd.getTextContent();
-                                        if(j==0){
-                                            writer.write(cont+delimitador);
-                                            cont++;
-                                        }
-                                        //Compruebo que no este vacio y escribo en el archivo.txt
-                                        if (name != null && !name.trim().equals("")) {
+                    //Validacion para clave y delimitadores que no esten vacios
+                    //Delimitador: sin guion, sin letras, sin numeros
+                    if(clave.isEmpty() || clave.equals("") || delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]") || delimitador.length()>1){
+                        if(clave.isEmpty() || clave.equals("") ){
+                            alert.setAlertType(Alert.AlertType.ERROR);
+                            alert.setContentText("Problemas al convertir el archivo. \n*La clave no puede ir vacia ");
+                            alert.show();
+                        }
+                        if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]")) || delimitador.length()>1){
+                            alert2.setAlertType(Alert.AlertType.ERROR);
+                            alert2.setContentText("Problemas al convertir el archivo. \n El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
+                            alert2.show();
+                            }
+                        }else{
+                            //Archivo.txt que va a crear
+                            BufferedWriter writer = new BufferedWriter(new FileWriter(guarda + ".txt"));
 
-                                            if(j == 7){
-                                                VigenereDescifrado vigenereDescifrado = new VigenereDescifrado(name,clave);
-                                                writer.write(vigenereDescifrado.descifrado);
-                                            }else{
-                                                writer.write(nd.getTextContent().trim());
+                            int cont = 1;//---> Contador para el id
+                            //Nodo Padre
+                            for (int i = 0; i < nList.getLength(); i++) {
+                                Node node = nList.item(i);
+                                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                                    //Creo un elemento que obtendra los hijos
+                                    Element eElement = (Element) node;
+                                    if (eElement.hasChildNodes()) {
+                                        NodeList nl = node.getChildNodes();
+                                        for (int j = 0; j < nl.getLength(); j++) {
+                                            Node nd = nl.item(j);
+                                            String name = nd.getTextContent();//-->Guarda la informacion de cada linea
+                                            //Para colocar el id que no se encuentra en el archivo xml
+                                            if(j==0){
+                                                writer.write(cont+delimitador);
+                                                cont++;
                                             }
-                                            //Para que el último dato no tenga el delimitador
-                                            if (j < nl.getLength() - 2) {
-                                                writer.write(delimitador);
+                                            //Compruebo que no este vacio y escribo en el archivo.txt
+                                            if (name != null && !name.trim().equals("")) {
+                                                //7 es la posicion donde se escuentra el numero de la tarjeta
+                                                //Aqui se usa Vigenere para descifrar
+                                                if(j == 7){
+                                                    VigenereDescifrado vigenereDescifrado = new VigenereDescifrado(name,clave);
+                                                    writer.write(vigenereDescifrado.descifrado);
+                                                }else{
+                                                    //Si no es la posicion 7, escribiera los datos tal y como estan en el xml
+                                                    writer.write(nd.getTextContent().trim());
+                                                }
+                                                //Para que el último dato no tenga el delimitador
+                                                if (j < nl.getLength() - 2) {
+                                                    writer.write(delimitador);
+                                                }
                                             }
                                         }
                                     }
                                 }
+                                //Salto para cada linea leida
+                                writer.write("\n");
                             }
-                            writer.write("\n");
+                            writer.close();
                         }
-                        writer.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -412,41 +446,43 @@ public class Main extends Application {
             });
 
         //Al presionar convert4 (Convertir de JSON a TXT)
-           convert4.setOnAction(event -> {
-                //ELIGE DONDE GUARDAR
-                JFileChooser archivoG = new JFileChooser();
-                archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos de Texto", "txt");
-                selectorArchivos.setFileFilter(filtroG);
-                archivoG.showSaveDialog(archivoG);
-                File guarda = archivoG.getSelectedFile();
-               //System.out.println(textFieldllaveCi.getText());
-//---------------------------------------------------------------------------------------------
-                if ((archivo == null) || (archivo.getName().equals(""))) {
-                    JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
-                            "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    //Archivo al que vamos a reescribir el JSON
-                    Writer writer = null;
-                    try {
-                        writer = new FileWriter(guarda + ".txt");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+        convert4.setOnAction(event -> {
 
-                    JSONParser parser = new JSONParser();
-                    JSONArray a = null;
+            //ELIGE DONDE GUARDAR
+            JFileChooser archivoG = new JFileChooser();
+            archivoG.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            FileNameExtensionFilter filtroG = new FileNameExtensionFilter("Archivos de Texto", "txt");
+            selectorArchivos.setFileFilter(filtroG);
+            archivoG.showSaveDialog(archivoG);
+            File guarda = archivoG.getSelectedFile();
 
-                    delimitador = textFieldDelimitador.getText();
-                    
-                    try {
+            if ((archivo == null) || (archivo.getName().equals(""))) {
+                JOptionPane.showMessageDialog(selectorArchivos, "Nombre de archivo inválido",
+                        "Nombre de archivo inválido", JOptionPane.ERROR_MESSAGE);
+            } else {
+                //Archivo al que vamos a reescribir el JSON
+                Writer writer = null;
+                JSONParser parser = new JSONParser();
+                JSONArray a = null;
+
+                //Obtenemos lo que ingreso el usuario
+                delimitador = textFieldDelimitador.getText();
+
+                try {
+                    //Validacion para clave y delimitadores que no esten vacios
+                    //Delimitador: sin guion, sin letras, sin numeros
+                    if(delimitador.isEmpty() || delimitador.equals("-") || delimitador.matches("[a-zA-Z0-9]") || delimitador.length()>1){
+                        if (delimitador.isEmpty() || delimitador.equals("-") || (delimitador.matches("[a-zA-Z0-9]")) || delimitador.length()>1){
+                            alert2.setAlertType(Alert.AlertType.ERROR);
+                            alert2.setContentText("Problemas al convertir el archivo. \n El delimitador: \n *No puede ir vacio. \n *No puede ser guión. \n *No puede ser número o letra. \n *Solo puede ser de longitud 1.");
+                            alert2.show();
+                        }
+                    }else{
+                        //Archivo que se leerá
                         a = (JSONArray) parser.parse(new FileReader(archivo));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    try {
+                        //Archivo que se guardará
+                        writer = new FileWriter(guarda + ".txt");
+
                         for (Object o : a) {
 
                             JSONObject jsonObject = (JSONObject) o;
@@ -487,28 +523,27 @@ public class Main extends Application {
                                 writer.write("\n");
                             }
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
-                        // Cerramos el archivo
-                        try {
-                            //Verificamos que no este nulo
-                            if (null != writer) {
-                                writer.flush();
-                                writer.close();
-                            }
-                        } catch (Exception e2) {
-                            e2.printStackTrace();
+                    }
+                } catch (IOException | ParseException e) {
+                    e.printStackTrace();
+                } finally {
+                    // Cerramos el archivo
+                    try {
+                        //Verificamos que no este nulo
+                        if (null != writer) {
+                            writer.flush();
+                            writer.close();
                         }
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
                     }
                 }
-            });
+            }
+        });
     }
     @FXML
-    private void mostrarContenido(File archivo) {
-        TextArea idk = new TextArea();
-        idk.setText("hOLA");
-    }
+
+    //Muestra el contenido de los archivos
     public static void mostrarContenidoTextArea(File archivo2, TextArea jta){
         try {
             BufferedReader leer = new BufferedReader(new FileReader(archivo2));
@@ -521,6 +556,7 @@ public class Main extends Application {
             //Logger.getLogger()
         }
     }
+
     //Abre el archivo XML (Estructura) para empezar a crearlo
     public static void openXml () throws ParserConfigurationException, TransformerConfigurationException, SAXException, org.xml.sax.SAXException {
 
@@ -558,8 +594,9 @@ public class Main extends Application {
         th.characters(elements[3].toCharArray(), 0, elements[3].length());
         th.endElement("", "", "apellido");
 
-        boolean ban = true;
+        boolean ban = true;//-->bandera
         th.startElement("", "", "credit-card", atts);
+        //While que mientras bandera sea true cifrará con Vigenere el numero de tarjera de cada linea del archivo
         while (ban){
             VigenereCifrado vigenere = new VigenereCifrado(elements[4],clave);
             th.characters(vigenere.cifrado, 0, elements[4].length());
@@ -585,8 +622,12 @@ public class Main extends Application {
     }
 
     public static void generateJWT(JsonArray dataset){
+
+        //Clave para cifrar json
         String clave = "EstaEsUnaClaveSuperSecretaYLargaParaQueEstoFuncione";
         byte[] decodedKey = Base64.getDecoder().decode(clave);
+
+        //Aqui Cifra el JWT
         String jwt = Jwts.builder()
                 .setPayload(dataset.toString())
                 .signWith(Keys.hmacShaKeyFor(decodedKey))
@@ -594,13 +635,8 @@ public class Main extends Application {
 
         System.out.println("-----> JWT CREADO");
         System.out.println(jwt);
-        System.out.println();
 
-        Gson gson = new GsonBuilder().setPrettyPrinting()
-                .serializeNulls()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .create();
-
+        //Aqui Descifra el JWT
         String result = Jwts.parser()
                 .setSigningKey(Keys.hmacShaKeyFor(decodedKey))
                 .parsePlaintextJws(jwt).getBody();
